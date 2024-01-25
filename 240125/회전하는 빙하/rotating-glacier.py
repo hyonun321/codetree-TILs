@@ -37,7 +37,9 @@ def in_range(x,y) :
 def rotate_all_maps_and_melting() :
     global maps
     for levels in rotate_level :
-        if levels == 0 : continue
+        if levels == 0 :
+            melt_ice()
+            continue
         temp_maps = [[0] * (2 ** n) for _ in range(2 ** n)]
         # cut_level = 주어진 레벨단계에서 자르는 그리드 단위
         cut_level = 2**levels
