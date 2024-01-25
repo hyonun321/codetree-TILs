@@ -34,7 +34,7 @@ def in_range(x,y) :
 
 
 
-def rotate_all_maps() :
+def rotate_all_maps_and_melting() :
     global maps
     for levels in rotate_level :
         if levels == 0 : continue
@@ -42,7 +42,6 @@ def rotate_all_maps() :
         # cut_level = 주어진 레벨단계에서 자르는 그리드 단위
         cut_level = 2**levels
         cut_4_level=2**(levels-1)
-        cut_16_level=2**(levels-2)
         # grid_size = 전체 2차원 배열의 한면 길이
         grid_size = 2**n
         for x in range(0, grid_size,cut_level):
@@ -71,6 +70,7 @@ def rotate_all_maps() :
         #for a in temp_maps:
         #    print(*a)
         update_maps(maps,temp_maps)
+        melt_ice()
     if deb == 1 :
         for a in maps:
             print(*a)
@@ -103,9 +103,6 @@ def melt_ice() :
                 else :
                     temp_maps[i][j] = maps[i][j] -1
     update_maps(maps,temp_maps)
-
-
-
     return
 
 def cal_big_ice() :
@@ -138,8 +135,6 @@ def cal_all_ice() :
     return counts
 
 
-rotate_all_maps()
-#print(cal_all_ice())
-melt_ice()
+rotate_all_maps_and_melting()
 print(cal_all_ice())
 print(cal_big_ice())
