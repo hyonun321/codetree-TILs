@@ -117,7 +117,7 @@ def dou_push():
     maps = []
 
     for j in range(n) :
-        for i in range(n - 1, 0, -1):
+        for i in range(n - 1, -1, -1):
             if maps_dou[i][j] > 0 :
                 maps.append(maps_dou[i][j])
     if deb:
@@ -204,6 +204,7 @@ def update_dou():
     global  maps_dou
     maps_dou =[[0 for _ in range(n)] for _ in range(n)]
     for iii in range(n):
+
         maps_dou[n - 1][iii] = maps[iii]
     return
 
