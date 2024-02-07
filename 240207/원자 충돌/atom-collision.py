@@ -1,7 +1,7 @@
 import sys
 
 #sys.stdin = open("원자충돌.txt", 'r')
-deb = 1
+deb = 0
 dx=[-1,-1,0,1,1,1,0,-1]
 dy=[0,1,1,1,0,-1,-1,-1]
 n,m,k = map(int,input().split())
@@ -42,9 +42,9 @@ def move_all_wonza():
                     nx,ny = (i+dx[d1]*s1+n)%n,(j+dy[d1]*s1+n)%n
                     temp_maps_3rd[nx][ny].append((m1,s1,d1))
 
-    #if deb :
-        #print('after moving : temp maps')
-        #debug_maps(temp_maps_3rd)
+    if deb :
+        print('after moving : temp maps')
+        debug_maps(temp_maps_3rd)
 
     for i in range(n) :
         for j in range(n) :
@@ -87,7 +87,9 @@ def wonza_hapsung():
                     for num_d in range(0,8,2): # 0,2,4,6
                         temp_maps_3rd[i][j].append((new_m1,new_s1,num_d))
             elif len(maps_3rd[i][j]) == 1 :
-                temp_maps_3rd[i][j].append(maps_3rd[i][j])
+                for itemss in maps_3rd[i][j]:
+                    xm1,xs1,xd1 = itemss
+                    temp_maps_3rd[i][j].append((xm1,xs1,xd1))
 
 
     for i in range(n) :
@@ -97,7 +99,8 @@ def wonza_hapsung():
                 for itemss in temp_maps_3rd[i][j]:
                     maps_3rd[i][j].append(itemss)
 
-    #debug_maps((maps_3rd))
+    if deb == 3 :
+        debug_maps((maps_3rd))
 
     return
 
