@@ -64,14 +64,21 @@ def wonza_hapsung():
             if len(maps_3rd[i][j]) >= 2 : # 2개이상일경우
                 master_m1,master_s1 = 0,0
                 master_d1 = 0 # 0이면 상하좌우, 1이면 대각선
+                sangha= 0
+                daegak = 0
                 for items in maps_3rd[i][j] :
                     m1,s1,d1 = items
                     master_m1 += m1
                     master_s1 += s1
                     master_d1 += d1
                     #여기가ㅣ 문제임. 상하좌우중 하나 or 대각선중 하나면 상하좌우고. 아니면 대각선.
-                if master_d1 %2 == 0 : # 대각선이거나 상하좌우일때다.
-                    pass
+                    if d1 %2 == 0 : # 상하 좌우다.
+                        sangha += 1
+                    else :
+                        daegak += 1
+
+                if (sangha > 0 and daegak == 0 )or ( sangha == 0 and daegak >0) :
+                    master_d1 = 0
                 else :
                     master_d1 = 1
                 master_m1 = master_m1 // 5
