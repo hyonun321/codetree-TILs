@@ -6,17 +6,19 @@ maps = list(map(int,input().split()))
 front_moving_walk = deque()
 under_moving_walk = deque()
 
-def moving_walk_rotate()
+def moving_walk_rotate():
     return
 
 
-def people_walking()
+def people_walking():
     return
 
 
-def add_people()
+def add_people():
     return
 
+def check_zero_pan(k):
+    return True
 answer = 0
 
 while True :
