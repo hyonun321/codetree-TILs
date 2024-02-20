@@ -25,15 +25,17 @@ def moving_walk_rotate():
             up_down = True
         rail[i] = number,health,next_position,up_down
 
-    # 사람들 위치가 n 인지 체크해야한다.
     return
 
 
 def people_walking():
-    possible = True
+
 
     for x in range(len(people)) :
+        possible = True
         a,b = people[x] # 사람번호, 현재 레일 번호
+        #if a==9 and b==2 :
+            #print('check')
         if b == -100 : continue
         next_b = (b)%(2*n) +1
 
@@ -51,7 +53,6 @@ def people_walking():
                     possible = False
                 else :
                     if possible :
-
                         health -= 1
                         rail[t] = number, health, position, up_down
         if possible : # 만약 옮길 수 있다면?
@@ -116,17 +117,16 @@ def check_position_n() :
 answer = 0
 while True:
     answer += 1
-
+    #print('회전후')
     moving_walk_rotate()
     check_position_n()
-    #print(1)
     #debug()
+    #print('사람들이 걷고난 후')
     people_walking()
     check_position_n()
-    #print(2)
     #debug()
+    #print('사람 추가 후')
     add_people()
-    #print(3)
     #debug()
     if check_zero_pan(k): break
 
