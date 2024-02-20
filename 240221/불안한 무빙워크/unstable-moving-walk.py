@@ -10,7 +10,7 @@ rail = []
 for i in range(n) :
     rail.append((i+1,maps[i],i+1,True))
 for j in range(n,n*2) :
-    rail.append((j+1,maps[i],j+1,False))
+    rail.append((j+1,maps[j],j+1,False))
 
 
 
@@ -50,8 +50,10 @@ def people_walking():
                 if health == 0 :
                     possible = False
                 else :
-                    health -= 1
-                    rail[t] = number, health, position, up_down
+                    if possible :
+
+                        health -= 1
+                        rail[t] = number, health, position, up_down
         if possible : # 만약 옮길 수 있다면?
             people[x] = (a,next_b)
 
@@ -65,15 +67,16 @@ p_number = 1
 def add_people():
     global p_number
     possible = True
-    for x in range(len(people)):
-        a,b = people[x]
-        if b == 1 :
-            possible = False
+    for k in range(n*2):
+        number, health, position, up_down = rail[k]
+        if position == 1 :
 
-    if possible:
-        for k in range(n*2):
-            number, health, position, up_down = rail[k]
-            if position == 1 and health != 0:
+            for z in range(len(people)) :
+                a,b = people[z]
+                if b == -100 : continue
+                if b == number : #1포지션에 사람이있다?
+                    possible = False
+            if possible and health != 0:
                 health -= 1
                 rail[k] = number, health, position, up_down
                 people.append((p_number, number)) # 지금 1번자리에있는 번호가들어가야함.
