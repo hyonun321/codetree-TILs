@@ -54,6 +54,7 @@ def people_walking():
                     rail[t] = number, health, position, up_down
         if possible : # 만약 옮길 수 있다면?
             people[x] = (a,next_b)
+
     return
 
 
@@ -61,7 +62,8 @@ people = []  # (i번째 사람 ,j번째 레일 위)
 p_number = 1
 
 
-def add_people(p_number):
+def add_people():
+    global p_number
     possible = True
     for x in range(len(people)):
         a,b = people[x]
@@ -75,6 +77,7 @@ def add_people(p_number):
                 health -= 1
                 rail[k] = number, health, position, up_down
                 people.append((p_number, number)) # 지금 1번자리에있는 번호가들어가야함.
+                p_number += 1
 
     return
 def debug():
@@ -90,7 +93,6 @@ def check_zero_pan(k):
         number, health, position, up_down = rail[c]
         if health == 0 :
             count += 1
-
     if count >= k :
         return True
     else :
@@ -100,9 +102,8 @@ def check_zero_pan(k):
 def check_position_n() :
     for k in range(len(people)) :
         a,b = people[k]
-
         for x in range(2*n) :
-            number, health, position, up_down = rail[k]
+            number, health, position, up_down = rail[x]
             if number == b :
                 if position == n :#n에 도착하면 우주로 보냄.
                     b = -100
@@ -110,17 +111,19 @@ def check_position_n() :
     return
 
 answer = 0
-while answer < 3:
+while True:
     answer += 1
 
     moving_walk_rotate()
     check_position_n()
+    #print(1)
     #debug()
     people_walking()
     check_position_n()
+    #print(2)
     #debug()
-
-    add_people(p_number)
+    add_people()
+    #print(3)
     #debug()
     if check_zero_pan(k): break
 
