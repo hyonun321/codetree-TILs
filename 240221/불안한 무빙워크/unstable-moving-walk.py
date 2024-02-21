@@ -71,7 +71,7 @@ def add_people():
     global p_number
     possible = True
     for k in range(n*2):
-        up_down = rail[k]
+
         if rail_position[k+1] == 1 :
 
             for z in range(len(people)) :
@@ -106,12 +106,16 @@ def check_zero_pan(k):
 
 
 def check_position_n() :
+    global people
+    temp= []
     for k in range(len(people)) :
         a,b = people[k]
-        if b== -100: continue
-        if rail_position[b] == n :
-            b = -100
-            people[k] = a,b
+
+        if rail_position[b] != n :
+            temp.append((a,b))
+
+    people = temp.copy()
+
     return
 
 answer = 0
