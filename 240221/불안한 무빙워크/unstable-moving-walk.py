@@ -1,7 +1,6 @@
-from collections import defaultdict
-#import sys
+import sys
 
-#sys.stdin = open("불안한무빙워크.txt", 'r')
+sys.stdin = open("불안한무빙워크.txt", 'r')
 n, k = map(int, input().split())
 maps = list(map(int, input().split()))
 rail_position = {}
@@ -17,8 +16,6 @@ for j in range(n,n*2) :
     rail_health[j+1] = maps[j]
     rail.append(False)
 
-
-
 def moving_walk_rotate():
 
     for i in range(2*n) :
@@ -30,9 +27,7 @@ def moving_walk_rotate():
             up_down = True
         rail[i] = up_down
         rail_position[i+1] = next_position
-
     return
-
 
 def people_walking():
     for x in range(len(people)) :
@@ -42,14 +37,11 @@ def people_walking():
         next_b = (b)%(2*n) +1
 
         # 사람이있나 체크
-
         for k in range(len(people)) :
             a1,b1= people[k]
             if b1 == next_b :
                 possible = False
         # 체력이 0 인가 체크
-
-
         if rail_health[next_b] == 0 :
             possible = False
         else :
@@ -59,13 +51,10 @@ def people_walking():
                 rail_health[next_b] = health
         if possible : # 만약 옮길 수 있다면?
             people[x] = (a,next_b)
-
     return
-
 
 people = []  # (i번째 사람 ,j번째 레일 위)
 p_number = 1
-
 
 def add_people():
     global p_number
@@ -87,12 +76,6 @@ def add_people():
                 p_number += 1
 
     return
-def debug():
-    print()
-    for k in rail:
-        print(*k)
-    print(people)
-    return
 
 def check_zero_pan(k):
     count = 0
@@ -113,25 +96,19 @@ def check_position_n() :
 
         if rail_position[b] != n :
             temp.append((a,b))
-
     people = temp.copy()
 
     return
 
 answer = 0
+
 while True:
     answer += 1
-    #print('회전후')
     moving_walk_rotate()
     check_position_n()
-    #debug()
-    #print('사람들이 걷고난 후')
     people_walking()
     check_position_n()
-    #debug()
-    #print('사람 추가 후')
     add_people()
-    #debug()
     if check_zero_pan(k): break
 
 print(answer)
