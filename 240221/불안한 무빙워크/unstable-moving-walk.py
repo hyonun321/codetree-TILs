@@ -1,6 +1,3 @@
-import sys
-
-sys.stdin = open("불안한무빙워크.txt", 'r')
 n, k = map(int, input().split())
 maps = list(map(int, input().split()))
 rail_position = {}
