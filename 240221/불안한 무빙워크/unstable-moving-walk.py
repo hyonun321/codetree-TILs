@@ -1,4 +1,4 @@
-#import sys
+import sys
 from collections import defaultdict
 #sys.stdin = open("불안한무빙워크.txt", 'r')
 n, k = map(int, input().split())
@@ -50,7 +50,7 @@ def people_walking():
                     rail_health[next_b] = health
                 if possible : # 만약 옮길 수 있다면?
                     temp[next_b] = 1
-    for k in range(1,n*2-1) :
+    for k in range(1,n*2+1) :
         rail_people[k] = temp[k]
     return
 
