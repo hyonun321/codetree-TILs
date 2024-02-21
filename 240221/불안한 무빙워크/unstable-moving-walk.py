@@ -1,41 +1,43 @@
-from collections import deque
+from collections import defaultdict
 #import sys
 
 #sys.stdin = open("불안한무빙워크.txt", 'r')
 n, k = map(int, input().split())
 maps = list(map(int, input().split()))
-
+rail_position = {}
+rail_health = {}
 # 레일번호, 레일안정성, 레일 현 위치, 프론트/언더 유무
 rail = []
 for i in range(n) :
-    rail.append((i+1,maps[i],i+1,True))
+    rail_position[i+1] = i+1
+    rail_health[i+1] = maps[i]
+    rail.append(True)
 for j in range(n,n*2) :
-    rail.append((j+1,maps[j],j+1,False))
+    rail_position[j+1] = j+1
+    rail_health[j+1] = maps[j]
+    rail.append(False)
 
 
 
 def moving_walk_rotate():
 
     for i in range(2*n) :
-        number,health,position,up_down = rail[i]
+        position = rail_position[i+1]
         next_position = position%(2*n) + 1
         if next_position > n :
             up_down = False
         else :
             up_down = True
-        rail[i] = number,health,next_position,up_down
+        rail[i] = up_down
+        rail_position[i+1] = next_position
 
     return
 
 
 def people_walking():
-
-
     for x in range(len(people)) :
         possible = True
         a,b = people[x] # 사람번호, 현재 레일 번호
-        #if a==9 and b==2 :
-            #print('check')
         if b == -100 : continue
         next_b = (b)%(2*n) +1
 
@@ -46,15 +48,15 @@ def people_walking():
             if b1 == next_b :
                 possible = False
         # 체력이 0 인가 체크
-        for t in range(n*2) :
-            number, health, position, up_down = rail[t]
-            if next_b == number :
-                if health == 0 :
-                    possible = False
-                else :
-                    if possible :
-                        health -= 1
-                        rail[t] = number, health, position, up_down
+
+
+        if rail_health[next_b] == 0 :
+            possible = False
+        else :
+            if possible :
+                health = rail_health[next_b]
+                health -= 1
+                rail_health[next_b] = health
         if possible : # 만약 옮길 수 있다면?
             people[x] = (a,next_b)
 
@@ -69,18 +71,19 @@ def add_people():
     global p_number
     possible = True
     for k in range(n*2):
-        number, health, position, up_down = rail[k]
-        if position == 1 :
+        up_down = rail[k]
+        if rail_position[k+1] == 1 :
 
             for z in range(len(people)) :
                 a,b = people[z]
                 if b == -100 : continue
-                if b == number : #1포지션에 사람이있다?
+                if b == k+1 : #1위치에있는 레일에 사람이있다?
                     possible = False
-            if possible and health != 0:
-                health -= 1
-                rail[k] = number, health, position, up_down
-                people.append((p_number, number)) # 지금 1번자리에있는 번호가들어가야함.
+            if possible and rail_health[k+1] != 0:
+                health = rail_health[k+1]
+                health -=1
+                rail_health[k+1] = health
+                people.append((p_number, k+1)) # 지금 1번자리에있는 번호가들어가야함.
                 p_number += 1
 
     return
@@ -94,8 +97,7 @@ def debug():
 def check_zero_pan(k):
     count = 0
     for c in range(2*n) :
-        number, health, position, up_down = rail[c]
-        if health == 0 :
+        if rail_health[c+1] == 0 :
             count += 1
     if count >= k :
         return True
@@ -106,12 +108,10 @@ def check_zero_pan(k):
 def check_position_n() :
     for k in range(len(people)) :
         a,b = people[k]
-        for x in range(2*n) :
-            number, health, position, up_down = rail[x]
-            if number == b :
-                if position == n :#n에 도착하면 우주로 보냄.
-                    b = -100
-                    people[k] = a,b
+        if b== -100: continue
+        if rail_position[b] == n :
+            b = -100
+            people[k] = a,b
     return
 
 answer = 0
