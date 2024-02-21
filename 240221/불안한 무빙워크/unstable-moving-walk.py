@@ -42,13 +42,14 @@ def people_walking():
             next_b = (x)%(2*n) +1
             # 사람이있나 체크
             if rail_people[next_b] == 1 or rail_health[next_b] == 0 :
-                possible = False
+                temp[x] = 1
             else :
                 if possible :
                     health = rail_health[next_b]
                     health -= 1
                     rail_health[next_b] = health
                 if possible : # 만약 옮길 수 있다면?
+                    rail_people[x] = 0
                     temp[next_b] = 1
     for k in range(1,n*2+1) :
         rail_people[k] = temp[k]
