@@ -33,7 +33,7 @@ def moving_walk_rotate():
     return
 
 def people_walking():
-    for x in rail_people :
+    for x in range(n*2,0,-1) :
         possible = True
         b = rail_people[x]  # x번째 레일에 사람이있나없나
 
