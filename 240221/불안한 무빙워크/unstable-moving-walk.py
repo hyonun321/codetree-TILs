@@ -1,5 +1,5 @@
 #import sys
-
+from collections import defaultdict
 #sys.stdin = open("불안한무빙워크.txt", 'r')
 n, k = map(int, input().split())
 maps = list(map(int, input().split()))
@@ -33,13 +33,13 @@ def moving_walk_rotate():
     return
 
 def people_walking():
+    temp = defaultdict(int)
     for x in range(n*2,0,-1) :
         possible = True
         b = rail_people[x]  # x번째 레일에 사람이있나없나
 
         if b == 1 :
             next_b = (x)%(2*n) +1
-
             # 사람이있나 체크
             if rail_people[next_b] == 1 or rail_health[next_b] == 0 :
                 possible = False
@@ -49,8 +49,9 @@ def people_walking():
                     health -= 1
                     rail_health[next_b] = health
                 if possible : # 만약 옮길 수 있다면?
-                    rail_people[x] = 0
-                    rail_people[next_b] = 1
+                    temp[next_b] = 1
+    for k in range(1,n*2-1) :
+        rail_people[k] = temp[k]
     return
 
 
