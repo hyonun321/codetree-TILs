@@ -10,20 +10,14 @@ for _ in range(n) :
 car_x,car_y = map(int,input().split())
 car_x -=1
 car_y -=1
-d_maps= [[[] for _ in range(n)] for _ in range(n)]
-
+d_arr = []
+c_arr = []
 for i in range(m) :
     x_s,y_s,x_e,y_e = map(int,input().split())
     maps[x_s-1][y_s-1]= i+11
-    d_maps[x_e-1][y_e-1].append(i+501)
-
-def debug():
-    print('디버그')
-    for k in maps:
-        print(*k)
-    print()
-    return
-
+    c_arr.append((i+11,x_s-1,y_s-1))
+    d_arr.append((i+501,x_e-1,y_e-1))
+c_arr.sort(key=lambda x:(x[1],x[2]))
 dx=[-1,0,1,0]
 dy=[0,-1,0,1]
 
@@ -34,19 +28,22 @@ def check_short_customer(battery):
     bt_chk = True
     min_ways = 10000000
     c_x,c_y = -1,-1
-    for i in range(n) :
-        for j in range(n) :
-            if maps[i][j] > 10  and maps[i][j] < 500:
-                way_arr,all_way = find_custsomer(i,j,battery)
-                if all_way == -1 :
-                    return 0,0,0,0,False
-                if all_way < min_ways:
-                    min_ways = all_way
-                    c_x,c_y = i,j
+    min_num= -1
+    min_idx =-1
+    for idx,item in enumerate(c_arr):
+        c_num,i,j = item
+        way_arr,all_way = find_custsomer(i,j,battery)
+        if all_way == -1 :
+            return 0,0,0,0,False,-1
+        if all_way < min_ways:
+            min_idx = idx
+            min_num = c_num
+            min_ways = all_way
+            c_x,c_y = i,j
 
     if battery - min_ways <= 0  :
         bt_chk= False
-    return maps[c_x][c_y],c_x,c_y,min_ways,bt_chk
+    return min_num,c_x,c_y,min_ways,bt_chk,min_idx
 
 def find_custsomer(a,b,battery):
 
@@ -91,14 +88,13 @@ def check_short_destination(battery,c_number):
     bt_chk = True
     d_number = c_number + 490
     d_x,d_y = -1,-1
-    for i in range(n) :
-        for j in range(n) :
-            for k in d_maps[i][j]:
-                if k == d_number:
-                    ways_arr,all_ways = find_custsomer(i, j, battery)
-                    if all_ways == -1:
-                        return 0, 0, 0, False
-                    d_x,d_y = i,j
+    for item in d_arr:
+        k,i,j = item
+        if k == d_number:
+            ways_arr,all_ways = find_custsomer(i, j, battery)
+            if all_ways == -1:
+                return 0, 0, 0, False
+            d_x,d_y = i,j
     if battery - all_ways < 0  :
         bt_chk= False
     return  d_x,d_y,all_ways,bt_chk
@@ -106,7 +102,7 @@ count = 0
 while True:
     min_ways = 1000000
     min_c_number = -1
-    c_number,c_x,c_y,c_ways,bt_chk = check_short_customer(battery)
+    c_number,c_x,c_y,c_ways,bt_chk,idx = check_short_customer(battery)
     if bt_chk == False:
         print(-1)
         break
@@ -114,9 +110,8 @@ while True:
         maps[c_x][c_y] = 0
         battery -= c_ways
         car_x, car_y = c_x, c_y
+        c_arr.pop(idx)
     #print(c_number,c_x,c_y,c_ways,bt_chk,battery)
-
-
     ##이제 최단거리로 경로로 옮겨줘야함.
     d_x,d_y,d_ways,bt_chk = check_short_destination(battery,c_number)
     if bt_chk == False:
