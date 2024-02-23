@@ -38,7 +38,8 @@ def check_short_customer(battery):
         for j in range(n) :
             if maps[i][j] > 10  and maps[i][j] < 500:
                 way_arr,all_way = find_custsomer(i,j,battery)
-
+                if all_way == -1 :
+                    return 0,0,0,0,False
                 if all_way < min_ways:
                     min_ways = all_way
                     c_x,c_y = i,j
@@ -71,7 +72,8 @@ def find_custsomer(a,b,battery):
                     possible = False
         if possible == False:
             break
-
+    if visited[a][b] == False:
+        return [],-1
     if deb == 1 :
         for c in visited:
             print(*c)
@@ -94,6 +96,8 @@ def check_short_destination(battery,c_number):
             for k in d_maps[i][j]:
                 if k == d_number:
                     ways_arr,all_ways = find_custsomer(i, j, battery)
+                    if all_ways == -1:
+                        return 0, 0, 0, False
                     d_x,d_y = i,j
     if battery - all_ways < 0  :
         bt_chk= False
