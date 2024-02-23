@@ -34,7 +34,7 @@ def check_short_customer(battery):
                 c_num = maps[i][j]
                 way_arr,all_way = find_custsomer(i,j,battery)
                 if all_way == -1 :
-                    return 0,0,0,0,False,-1
+                    return 0,0,0,0,False
                 if all_way < min_ways:
                     min_num = c_num
                     min_ways = all_way
