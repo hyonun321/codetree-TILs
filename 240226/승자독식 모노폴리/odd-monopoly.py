@@ -19,7 +19,7 @@ for peo in range(m) :
     for _ in range(4) :
         a,b,c,d = map(int,input().split())
         player_four_dir[peo+1].append([a,b,c,d])
-
+#print(player_four_dir)
 #위
 #아래
 #왼쪽
@@ -59,36 +59,26 @@ def player_move():
                 p_num = maps[i][j]
                 p_dir = player_dir[p_num]
 
-                nnum = (p_dir)
-                nx,ny = i+dx[nnum],j+dy[nnum]
-                #바라보고있는방향 그대로갈때
-                if in_range(nx,ny) and contract_map[nx][ny] == (0,0) :
-                    update_arr.append((nx,ny,p_num))
-                    player_dir[p_num] = nnum
-                    possible = True
-                    continue
-                else :
-                    #바라보고잇는방향에서 바꿔줘야할때
-                    for num in range(3):
-                        nnum = (nnum+num)%4+1
-                        nx, ny = i + dx[nnum], j + dy[nnum]
-                        if in_range(nx, ny) and contract_map[nx][ny] == (0, 0):
-                            update_arr.append((nx, ny, p_num))
-                            player_dir[p_num] = nnum
-                            possible = True
-                            break
+                speicial_dir = player_four_dir[p_num]  # 해당 플레이어에 대한 4가지 방향값
+                speicial_dir_2 = speicial_dir[p_dir - 1]
+                for nums in speicial_dir_2:
+                    nx,ny = i+dx[nums],j+dy[nums]
+                    if in_range(nx,ny) and contract_map[nx][ny] == (0,0) :
+                        update_arr.append((nx,ny,p_num))
+                        player_dir[p_num] = nums
+                        possible = True
+                        break
                 if possible == False:
                 # 여기는 방향안돼, 주변(0,0)없어.
                 # 인접 4방향 중 본인이 독점계약한 땅으로 이동.
-                    speicial_dir = player_four_dir[p_num] # 해당 플레이어에 대한 4가지 방향값
-
-                    speicial_dir_2 = speicial_dir[p_dir-1]
                     for nums in speicial_dir_2:
                         nx,ny = i+dx[nums],j+dy[nums]
-                        if in_range(nx,ny) and contract_map[nx][ny] == (p_num,_) :
-                            update_arr.append((nx,ny,p_num))
-                            player_dir[p_num] = nums
-                            break
+                        if in_range(nx,ny):
+                            next_num,_ = contract_map[nx][ny]
+                            if next_num == p_num :
+                                update_arr.append((nx,ny,p_num))
+                                player_dir[p_num] = nums
+                                break
 
 
                 # 인접한 4방향중 내가 독점계약한 땅으로
@@ -122,9 +112,12 @@ def check_one():
     return count
 
 ok = False
+#debug()
 for rounds in range(1,1001) :
     player_contract()
     player_move()
+    #debug()
+    #print('라운드:',rounds)
     if check_one() == 1 :
         print(rounds)
         ok = True
