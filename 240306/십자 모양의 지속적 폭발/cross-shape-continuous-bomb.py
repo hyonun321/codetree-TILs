@@ -5,7 +5,7 @@ for _ in range(m):
     bomb_arr.append(int(input())-1)
 def in_range(x,y):
     return 0<=x<n and 0<=y<n
-
+deb = 0
 def boom(x,y) : 
     size = maps[x][y]
 
@@ -19,11 +19,11 @@ def boom(x,y) :
             maps[nx][ny] = 0
             
     if size != 1 :
-        for i in range(-size,0,1):
+        for i in range(-size+1,0,1):
             nx,ny = x+i,y
             if in_range(nx,ny):
                 maps[nx][ny] = 0
-        for j in range(-size,0,1):
+        for j in range(-size+1,0,1):
             nx,ny = x,y+j
             if in_range(nx,ny):
                 maps[nx][ny] = 0
@@ -40,7 +40,10 @@ def clear_up():
                     maps[check][j] = maps[select][j]
                     maps[select][j] = 0
                     break
-            
+    if deb :
+        print('정리후')
+        for k in maps:
+            print(*k)
     return
 
 def boom_check(y) : 
@@ -48,6 +51,10 @@ def boom_check(y) :
         if maps[i][y] != 0 : 
             boom(i,y)
             break
+    if deb :
+        print('폭팔후')
+        for k in maps:
+            print(*k)
     return
 
 for ys in bomb_arr:
