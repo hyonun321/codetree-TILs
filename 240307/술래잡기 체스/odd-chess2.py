@@ -26,7 +26,7 @@ for tt in range(4):
 def catch_horse(mx,my):
     catch_number,master_direcition =maps[mx][my]
     number_arr[catch_number] = (-1,-1)
-    maps[mx][my] = (0,0)
+    maps[mx][my] = (-1,-1)
     return catch_number,master_direcition
 def move_horse():
     # maps 를 쭉 읽어오다가 문제가 생기니까 1~16 위치를 배열에 담아서 가져오게 해야함.
@@ -40,7 +40,7 @@ def one_move(x,y):
     a,b = maps[x][y]
     d = b
     nx,ny = x+dx[d],y+dy[d]
-    if in_range(nx,ny) or (mx == nx and my == ny):
+    if in_range(nx,ny) and not (maps[nx][ny] == (-1,-1)):
         #이거바꿀때 바꾸는놈 배열위치값도 반영해줘야함.
         t_number,t2 = maps[x][y]
         t2_number,t4 = maps[nx][ny]
@@ -76,6 +76,7 @@ def search_max_score(x,y,d,score):
         temp = [[maps[i][j] for j in range(n)]for i in range(n)]
 
         second_score,second_dir = catch_horse(nx,ny)
+        maps[x][y] = (0,0) # 빈칸처리
         move_horse()
         search_max_score(x,y,second_dir,second_score+score)
         
