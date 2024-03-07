@@ -37,23 +37,24 @@ def move_horse():
     return
 
 def one_move(x,y):
-    a,b = maps[x][y]
-    d = b
-    nx,ny = x+dx[d],y+dy[d]
-    if in_range(nx,ny) and not (maps[nx][ny] == (-1,-1)):
-        #이거바꿀때 바꾸는놈 배열위치값도 반영해줘야함.
-        t_number,t2 = maps[x][y]
-        t2_number,t4 = maps[nx][ny]
+    a,d = maps[x][y]
+    for dist in range(8):
+        nd = (d+dist)%8
+        nx,ny = x+dx[nd],y+dy[nd]
+        if in_range(nx,ny) and (maps[nx][ny] != (-1,-1)):
+            #이거바꿀때 바꾸는놈 배열위치값도 반영해줘야함.
 
-        number_arr[t2_number] = (x,y)
-        maps[x][y] = t2_number,t4
+            t_number,t2 = a,nd
+            t2_number,t4 = maps[nx][ny]
 
-        number_arr[t_number] = (nx,ny)
-        maps[nx][ny] = t_number,t2
-    else : 
-        d = (d+1)%8
-        maps[x][y] = (a,d)
-        one_move(x,y)
+            number_arr[t2_number] = (x,y)
+            maps[x][y] = t2_number,t4
+
+            number_arr[t_number] = (nx,ny)
+            maps[nx][ny] = t_number,t2
+            
+            return
+
     return
 
 def done(x,y,d):
@@ -78,7 +79,7 @@ def search_max_score(x,y,d,score):
         second_score,second_dir = catch_horse(nx,ny)
         maps[x][y] = (0,0) # 빈칸처리
         move_horse()
-        search_max_score(x,y,second_dir,second_score+score)
+        search_max_score(nx,ny,second_dir,second_score+score)
         
         for i in range(n):
             for j in range(n):
