@@ -10,12 +10,12 @@ maps = [ [(0,0) for _ in range(4)] for _ in range(4)]
 mx,my =0,0
 number_arr = [0 for _ in range(17)]
 for tt in range(4):
-    a,b,c,d,e,f,g,h= map(int,input().split())
-    number_arr[a] =(tt,0)
-    maps[tt][0]=(a,b-1)
+    a2,b2,c2,d2,e,f,g,h= map(int,input().split())
+    number_arr[a2] =(tt,0)
+    maps[tt][0]=(a2,b2-1)
 
-    number_arr[c] =(tt,1)
-    maps[tt][1]=(c,d-1)
+    number_arr[c2] =(tt,1)
+    maps[tt][1]=(c2,d2-1)
 
     number_arr[e] =(tt,2)
     maps[tt][2]=(e,f-1)
@@ -25,23 +25,39 @@ for tt in range(4):
 
 def catch_horse(mx,my):
     catch_number,master_direcition =maps[mx][my]
-    number_arr[catch_number] = (-1,-1)
-    maps[mx][my] = (-1,-1)
+    number_arr[catch_number] = (-2,-2) # 현재 술래잡이중이다.
+    maps[mx][my] = (-2,-2)
     return catch_number,master_direcition
+
+def move_this(number):
+    for i in range(n) : 
+        for j in range(n) : 
+            p_num,p_dir = maps[i][j]
+            if p_num == number:
+                one_move(i,j)
+                return
+    return
 def move_horse():
     # maps 를 쭉 읽어오다가 문제가 생기니까 1~16 위치를 배열에 담아서 가져오게 해야함.
     for number in range(1,17):
-        a,b = number_arr[number]
-        if a == -1 and b == -1 : continue
-        one_move(a,b)
+        move_this(number)
     return
+
+def thief_can_go(x, y):
+    return in_range(x, y) and maps[x][y] != (-2,-2)
+
+
+# 술래가 이동할 수 있는 곳인지를 판단합니다.
+# 격자 안이면서, 도둑말이 있어야만 합니다.
+def tagger_can_go(x, y):
+    return in_range(x, y) and maps[x][y] != (-1,-1)
 
 def one_move(x,y):
     a,d = maps[x][y]
     for dist in range(8):
         nd = (d+dist)%8
         nx,ny = x+dx[nd],y+dy[nd]
-        if in_range(nx,ny) and (maps[nx][ny] != (-1,-1)):
+        if thief_can_go(nx,ny):
             #이거바꿀때 바꾸는놈 배열위치값도 반영해줘야함.
 
             t_number,t2 = a,nd
@@ -60,7 +76,7 @@ def one_move(x,y):
 def done(x,y,d):
     for dist in range(1,5):
         nx,ny=x+dx[d]*dist,y+dy[d]*dist
-        if in_range(nx,ny) and maps[nx][ny] != (0,0):
+        if tagger_can_go(nx,ny):
             return False
     return True
 
@@ -77,7 +93,10 @@ def search_max_score(x,y,d,score):
         temp = [[maps[i][j] for j in range(n)]for i in range(n)]
 
         second_score,second_dir = catch_horse(nx,ny)
-        maps[x][y] = (0,0) # 빈칸처리
+        before_number,b_d = maps[x][y]
+        number_arr[before_number] = (-1,-1) # 이제 빈칸됐다
+
+        maps[x][y] = (-1,-1) # 빈칸처리
         move_horse()
         search_max_score(nx,ny,second_dir,second_score+score)
         
