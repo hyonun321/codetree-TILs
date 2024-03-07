@@ -89,14 +89,12 @@ def search_max_score(x,y,d,score):
     for dist in range(1,5):
         nx,ny=x+dx[d]*dist,y+dy[d]*dist
 
-        if not (in_range(nx,ny) and maps[nx][ny] != (0,0)): continue
+        if not tagger_can_go(nx,ny): continue
         temp = [[maps[i][j] for j in range(n)]for i in range(n)]
 
         second_score,second_dir = catch_horse(nx,ny)
-        before_number,b_d = maps[x][y]
-        number_arr[before_number] = (-1,-1) # 이제 빈칸됐다
-
         maps[x][y] = (-1,-1) # 빈칸처리
+        maps[nx][ny] = (-2,-2) # 말처리 velog 기입하기. 
         move_horse()
         search_max_score(nx,ny,second_dir,second_score+score)
         
