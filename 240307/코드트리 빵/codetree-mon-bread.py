@@ -78,12 +78,12 @@ def is_basecamp_ok(x,y):
 def is_combini_ok(x,y):
     return combini_map[x][y] != -1
 
-def base_camp_find(x,y,fx,fy):
+def base_camp_find(sx,sy,fx,fy):
     distance = 0
     queue = deque()
-    queue.append((x,y,distance))
+    queue.append((sx,sy,distance))
     visited = [ [-1 for _ in range(n)] for _ in range(n)]
-    visited[x][y] = distance
+    visited[sx][sy] = distance
     while queue:
         x,y,dd = queue.popleft()
         distance +=1
@@ -106,6 +106,7 @@ def people_upload(round):
             for j in range(n) : 
                 if maps[i][j] == 1 :
                     distance = base_camp_find(i,j,combini_x,combini_y)
+                    if distance == -1 : continue
                     if min_distance > distance:
                         min_distance = distance
                         min_x,min_y = i,j
