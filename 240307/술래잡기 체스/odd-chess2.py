@@ -29,18 +29,13 @@ def catch_horse(mx,my):
     maps[mx][my] = (-2,-2)
     return catch_number,master_direcition
 
-def move_this(number):
-    for i in range(n) : 
-        for j in range(n) : 
-            p_num,p_dir = maps[i][j]
-            if p_num == number:
-                one_move(i,j)
-                return
-    return
+
 def move_horse():
     # maps 를 쭉 읽어오다가 문제가 생기니까 1~16 위치를 배열에 담아서 가져오게 해야함.
     for number in range(1,17):
-        move_this(number)
+        (ii,jj) = number_arr[number]
+        if maps[ii][jj] == (-2,-2) or maps[ii][jj] == (-1,-1) : continue
+        one_move(ii,jj)
     return
 
 def thief_can_go(x, y):
