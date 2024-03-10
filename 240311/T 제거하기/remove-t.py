@@ -5,25 +5,10 @@ a = list(input())
 b = list(input())
 
 
-def check_ok():
-    global a,b
-    #print('check',a,b)
-    if len(a) < len(b): return False
-    #print(len(a),len(b))
-    for i in range(len(a)):
-            if a[i] == b[0]:
-                point = 0
-                for k in range(len(b)):
-                    #print(i+k,k)
-                    if a[i+k] != b[k] : break
-                check_i = i
-                return True
-    return False
-
 def simulation():
     global a, b
     
-    while check_ok():
+    while True:
         check_i = 1e6
         #print(len(a),'dhkdn')
         for i in range(len(a)):
