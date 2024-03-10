@@ -1,7 +1,8 @@
 import sys
+from collections import deque
 #sys.stdin = open('T제거하기.txt','r')
 def remove_T_efficiently(a, b):
-    stack = []
+    stack = deque()
     len_b = len(b)
     
     for char in a:
