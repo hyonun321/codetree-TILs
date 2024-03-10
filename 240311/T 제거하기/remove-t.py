@@ -22,8 +22,9 @@ def check_ok():
 
 def simulation():
     global a, b
-    check_i = 1e6
+    
     while check_ok():
+        check_i = 1e6
         #print(len(a),'dhkdn')
         for i in range(len(a)):
             if a[i] == b[0]:
