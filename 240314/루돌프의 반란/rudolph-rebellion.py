@@ -64,10 +64,10 @@ def roodolf_move():
     rx,ry = r_x,r_y
     # 산타 충돌체크 
     if santa_map[rx][ry] != 0 :
-        before_num = santa_map[rx][ry]
-        santa_point[before_num] += c
+        temp_num = santa_map[rx][ry]
+        santa_point[temp_num] += c
         while True : # 산타가있다면?
-            rx,ry,temp_num=hit_by_anyone(rx,ry,r_d,ROODOLF,before_num)
+            rx,ry,temp_num=hit_by_anyone(rx,ry,r_d,ROODOLF,temp_num)
             if rx == - 100 : 
                 santa_map[r_x][r_y] = 0
                 break
@@ -75,9 +75,10 @@ def roodolf_move():
                 santa_appa[temp_num] = rounds+2
                 if santa_map[rx][ry] == 0  : 
                     santa_map[rx][ry] = temp_num
+                    santa_map[r_x][r_y] = 0
                     break
                 elif santa_map[rx][ry] != 0 : 
-                    santa_appa[temp_num] = rounds+2
+
                     continue
             else : # 밖으로 나가거나 하는경우 
                 break
@@ -91,7 +92,7 @@ def hit_by_anyone(x,y,direct,WHO,before_num): # 그다음에 갈곳에 산타가
         if WHO == ROODOLF:
             nx,ny = x+c*rdx[direct],y+c*rdy[direct]
             if in_range(nx,ny) : 
-                santa_map[x][y] = 0
+                santa_map[x][y] = before_num
                 return nx,ny,temp_num
             else : 
                 return -100,-100,_
