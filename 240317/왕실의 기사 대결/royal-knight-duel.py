@@ -8,6 +8,7 @@ dy=[0,1,0,-1]
 maps = [list(map(int,input().split())) for _ in range(l)]
 night_map = [ [0 for _ in range(l)] for _ in range(l)]
 night_health = [0]
+damaged_night= [0 for _ in range(n+1)]
 for number in range(1,n+1) : 
     r,c,h,w,k = map(int,input().split())
     r-=1
@@ -72,6 +73,7 @@ def can_move_arr(one_night_arr,d):
 
 def can_move_night(number,d):
     one_night_arr = bfs(number)
+    out = False
     for x1 in range(l):
         for y1 in range(l):
             if one_night_arr[x1][y1] : 
@@ -82,6 +84,9 @@ def can_move_night(number,d):
                     one_night_arr = update_arr(temp_arr,one_night_arr)
                 elif in_range(nx,ny) and maps[nx][ny] == 2 : #그다음 아래에 돌이있다면 
                     return False,one_night_arr
+                elif not in_range(nx,ny): # 바깥으로 나갈때 
+                    out = True
+    if out : return False,one_night_arr
     return True, one_night_arr    
 
 def move_nights(one_night_arr,d):
@@ -92,8 +97,9 @@ def move_nights(one_night_arr,d):
             if one_night_arr[i][j] :
                 temp_num = night_map[i][j]
                 nx,ny = i+dx[d],j+dy[d]
-                temp_night_map[nx][ny] = temp_num
-                moved_night.append(temp_num)
+                if in_range(nx,ny):
+                    temp_night_map[nx][ny] = temp_num
+                    moved_night.append(temp_num)
 
     for i in range(l):
         for j in range(l):
@@ -104,35 +110,39 @@ def move_nights(one_night_arr,d):
         for j in range(l):
             night_map[i][j] = temp_night_map[i][j]
 
-    return
+    return moved_night
 
-def damage_check(numbers) : 
+def damage_check(numbers,moved_night) : 
     for i in range(l):
         for j in range(l):
             if maps[i][j] == 1:
                 if night_map[i][j] != 0 :
                     if night_map[i][j] == numbers: continue
+                    if not night_map[i][j] in moved_night : continue
                     number = night_map[i][j]
                     night_health[number] -= 1 
+                    damaged_night[number] +=1
     return 
 damage = 0 
 
 def disapear():
+    global out_night_arr
     for i in range(l):
         for j in range(l):
             if night_map[i][j] != 0 : 
                 if night_health[night_map[i][j]] <= 0 :
-                    night_map[i][j] = 0
                     if not night_map[i][j] in out_night_arr:
                         out_night_arr.append(night_map[i][j]) 
-    return
+                    night_map[i][j] = 0
+    return 
 
 def cal_all_damaged_night():
+    global out_night_arr
     count = 0
     for k in range(len(night_health)):
         if k == 0 : continue
         if k in out_night_arr: continue
-        count += night_health[k]
+        count += damaged_night[k]
     return count
 count =0
 for _ in range(q):
@@ -140,7 +150,7 @@ for _ in range(q):
     if i in out_night_arr: continue
     possible , one_night_arr = can_move_night(i,d)
     if possible:
-        move_nights(one_night_arr,d)
-        damage_check(i)
+        moved_night = move_nights(one_night_arr,d)
+        damage_check(i,moved_night)
         disapear()
 print(cal_all_damaged_night())
