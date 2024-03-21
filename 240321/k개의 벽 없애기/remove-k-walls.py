@@ -1,15 +1,15 @@
-#import sys
+import sys
 #sys.stdin = open('연습.txt','r')
 from collections import deque
 n,k = map(int,input().split())
 
 maps = []
 temps = []
-for k in range(n):
+for k1 in range(n):
     its = list(map(int,input().split()))
     for k2 in range(len(its)):
         kk = its[k2]
-        if kk == 1 : temps.append((k,k2))
+        if kk == 1 : temps.append((k1,k2))
     maps.append(its)
 
 dx=[-1,0,1,0]
@@ -46,7 +46,7 @@ zoongbok = []
 l_count = 1000000
 def backtracking(num):
     global l_count,maps
-    if num == k-1 :
+    if num == k :
         #print(arr)
         count = 0
         temp_maps = [ [ maps[i][j] for j in range(n)] for i in range(n)]
