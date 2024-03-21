@@ -71,7 +71,7 @@ def roo_move():
             while True : 
                 if not is_santa(ttx,tty) : break
                 ttx,tty,ttd,ttnum = continous_santa_push(ttx,tty,ttd,ttnum)
-            if not is_santa(ttx,tty) and in_range(ttx,tty):
+            if in_range(ttx,tty) and  not is_santa(ttx,tty):
                 board[ttx][tty] = ttnum
                 santa_arr[ttnum][1] = ttx
                 santa_arr[ttnum][2] = tty
@@ -141,13 +141,14 @@ def san_move(idx):
     return
 
 def is_santa(tx,ty):
-    if 1 <= board[tx][ty] <= 30: 
+    if in_range(tx,ty) and 1 <= board[tx][ty] <= 30: 
         return True
     else : 
         return False
 
 def continous_santa_push(x,y,d,num):
     nd = d
+    if not in_range(x,y): return x,y,d,num
     nnum = board[x][y]
     board[x][y] = num
     santa_arr[num][1] = x
