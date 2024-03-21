@@ -71,9 +71,10 @@ def roo_move():
             while True : 
                 if not is_santa(ttx,tty) : break
                 ttx,tty,ttd,ttnum = continous_santa_push(ttx,tty,ttd,ttnum)
-            board[ttx][tty] = ttnum
-            santa_arr[ttnum][1] = ttx
-            santa_arr[ttnum][2] = tty
+            if not is_santa(ttx,tty) and in_range(ttx,tty):
+                board[ttx][tty] = ttnum
+                santa_arr[ttnum][1] = ttx
+                santa_arr[ttnum][2] = tty
         else : #밖으로 나간경우 탈락시켜야함. 
             santa_arr[p_santa][1]=-100
             santa_arr[p_santa][2]=-100
@@ -155,6 +156,8 @@ def continous_santa_push(x,y,d,num):
     if in_range(nx,ny):
         return nx,ny,nd,nnum
     else : 
+        santa_arr[nnum][1] = -100
+        santa_arr[nnum][2] = -100
         return nx,ny,nd,nnum
 
 
