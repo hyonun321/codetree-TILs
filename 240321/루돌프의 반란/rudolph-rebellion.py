@@ -121,9 +121,11 @@ def san_move(idx):
             while True : 
                 if not is_santa(tx,ty):break
                 tx,ty,td,tnum =continous_santa_push(tx,ty,td,tnum)
-            board[tx][ty] = tnum
-            santa_arr[tnum][1]=tx
-            santa_arr[tnum][2]=ty
+
+            if in_range(tx,ty):
+                board[tx][ty] = tnum
+                santa_arr[tnum][1]=tx
+                santa_arr[tnum][2]=ty
             
         else : # 밖으로 나갈때 
             santa_arr[idx][1]=-100
