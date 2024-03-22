@@ -29,8 +29,8 @@ def update_arr():
             if maps[i][j] != 0 :
                 temp_arr[maps[i][j]].append((i,j))
     for night in range(1,n+1):
-        #print(temp_arr[night])
-        a,b = temp_arr[night][0]
+        if night_info[night][4] == 0 : continue
+        a,b = temp_arr[night][0] #업데이트 하려고하는데 죽어서 2차원배열에 없어..
         night_info[night][0] = a
         night_info[night][1] = b
 
