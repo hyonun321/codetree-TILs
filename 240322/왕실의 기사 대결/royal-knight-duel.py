@@ -61,9 +61,9 @@ update_map()
 update_arr()
 def night_move(idx,d):
     global maps
-    r,c,h,w = night_info[idx][0],night_info[idx][1],night_info[idx][2],night_info[idx][3]
+    r,c,h,w,k = night_info[idx][0],night_info[idx][1],night_info[idx][2],night_info[idx][3],night_info[idx][4]
     # 사라진 기사일 경우 명령 반응 없음.
-    if k <= 0 : return
+    if k <= 0 : return False,[]
     visitied = [ [False for _ in range(l)] for _ in range(l)]
     queue = deque()
     can_move = [idx]
