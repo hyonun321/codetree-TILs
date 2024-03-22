@@ -124,15 +124,17 @@ def cal_alive_night_damaged():
     return count
 
 def damage_check(n_num,moved_arr):
-    for i in range(l):
-        for j in range(l):
-            if maps[i][j] == n_num: continue
-            if maps[i][j] != 0 and board[i][j] == 1 :
-                if maps[i][j] in moved_arr :
+
+    for night in moved_arr:
+        if night == n_num: continue
+        r, c, h, w = night_info[night][0], night_info[night][1], night_info[night][2], night_info[night][3]
+        for i in range(r, r + h):
+            for j in range(c, c + w):
+                if maps[i][j] == 1 :
                     if night_info[maps[i][j]][4] > 0 :
                         night_info[maps[i][j]][4] -= 1
                         damaged_arr[maps[i][j]] += 1
-                        if night_info[maps[i][j]][4] == 0 : # 0은 다죽으니
+                        if night_info[maps[i][j]][4] <= 0 : # 0은 다죽으니
                             for x1 in range(l):
                                 for y1 in range(l):
                                     if maps[x1][y1] == maps[i][j] :
