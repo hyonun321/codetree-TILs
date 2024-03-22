@@ -130,7 +130,7 @@ def damage_check(n_num,moved_arr):
         r, c, h, w = night_info[night][0], night_info[night][1], night_info[night][2], night_info[night][3]
         for i in range(r, r + h):
             for j in range(c, c + w):
-                if maps[i][j] == 1 :
+                if board[i][j] == 1 :
                     if night_info[maps[i][j]][4] > 0 :
                         night_info[maps[i][j]][4] -= 1
                         damaged_arr[maps[i][j]] += 1
