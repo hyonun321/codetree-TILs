@@ -29,7 +29,7 @@ def update_arr():
             if maps[i][j] != 0 :
                 temp_arr[maps[i][j]].append((i,j))
     for night in range(1,n+1):
-        if night_info[night][4] == 0 : continue
+        if night_info[night][4] <= 0 : continue
         a,b = temp_arr[night][0] #업데이트 하려고하는데 죽어서 2차원배열에 없어..
         night_info[night][0] = a
         night_info[night][1] = b
@@ -131,14 +131,13 @@ def damage_check(n_num,moved_arr):
         for i in range(r, r + h):
             for j in range(c, c + w):
                 if board[i][j] == 1 :
-                    if night_info[maps[i][j]][4] > 0 :
-                        night_info[maps[i][j]][4] -= 1
-                        damaged_arr[maps[i][j]] += 1
-                        if night_info[maps[i][j]][4] <= 0 : # 0은 다죽으니
-                            for x1 in range(l):
-                                for y1 in range(l):
-                                    if maps[x1][y1] == maps[i][j] :
-                                        maps[x1][y1] = 0
+                    night_info[night][4] -= 1
+                    damaged_arr[night] += 1
+                    if night_info[night][4] <= 0 : # 0은 다죽으니
+                        for x1 in range(l):
+                            for y1 in range(l):
+                                if maps[x1][y1] == night :
+                                    maps[x1][y1] = 0
     #이동명령받은 기사는 데미지 안입음.
 
     return
