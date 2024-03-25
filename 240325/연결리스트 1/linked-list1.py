@@ -52,7 +52,7 @@ for _ in range(n):
     a = strs[0]
     if len(strs) == 2 :
         b = strs[1]
-    node1 = Node(b)
+        node1 = Node(b)
     a = int(a)
     if a == 1:
         insert_prev(cur,node1)
