@@ -104,7 +104,7 @@ def rotate():
                     # 여기로부터 크기 2만큼 for 배열 2개 순회하면됨.
                     if deb:
                         print('왼쪽위 꼭지점',e_x-k1,e_y-k2)
-                    if in_range(e_x-k1,e_y-k2):
+                    if in_range(e_x-k1,e_y-k2) and in_range(e_x-k1+power,e_y-k2+power):
                         p_count = 0
                         for t1 in range(power+1):
                             for t2 in range(power+1):
