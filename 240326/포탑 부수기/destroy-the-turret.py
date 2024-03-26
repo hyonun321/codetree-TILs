@@ -9,7 +9,7 @@ now_attack = [ [False for _ in range(m)] for _ in range(n)]
 def max_tower():
      count = 0
      for i in range(n):
-         for j in range(n):
+         for j in range(m):
              t_c = maps[i][j]
              if t_c > count :
                  count = t_c
@@ -146,6 +146,7 @@ for rounds in range(1,k+1):
     recent_attack[ax][ay] = rounds
     #맞는놈을 찾는다.
     hx,hy = find_hitted()
+    if ax == hx and hy == ay : continue
     # 공격하는애 파워 보정
     maps[ax][ay] += (n+m)
     #레이저 공격이 가능한지 체크.
