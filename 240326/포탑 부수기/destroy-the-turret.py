@@ -1,7 +1,7 @@
 import sys
 from collections import deque
 #sys.stdin = open('포탑부수기.txt','r')
-
+deb = 0
 n,m,k = map(int,input().split())
 maps = [ list(map(int,input().split())) for _ in range(n)]
 recent_attack = [ [ 0 for _ in range(m)] for _ in range(n)]
@@ -26,7 +26,8 @@ def find_attack():
             for i in range(n):
                 if k == (i+j):
                     n_t = recent_attack[i][j]
-                    print(i,j)
+                    if deb:
+                        print(i,j)
                     if maps[i][j] > 0 :
                         if l_power > maps[i][j] :
                             l_power = maps[i][j]
@@ -48,7 +49,8 @@ def find_hitted():
         for i in range(n):
             for j in range(m):
                 if k == (i+j):
-                    print('어라',i,j)
+                    if deb:
+                        print('어라',i,j)
                     if maps[i][j] > 0 :
                         n_t = recent_attack[i][j]
                         if  m_power < maps[i][j] :
