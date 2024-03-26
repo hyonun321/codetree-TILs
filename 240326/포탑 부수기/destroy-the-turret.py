@@ -1,6 +1,6 @@
 import sys
-#from collections import deque
-sys.stdin = open('포탑부수기.txt','r')
+from collections import deque
+#sys.stdin = open('포탑부수기.txt','r')
 
 n,m,k = map(int,input().split())
 maps = [ list(map(int,input().split())) for _ in range(n)]
