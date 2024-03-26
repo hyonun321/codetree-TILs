@@ -21,15 +21,22 @@ dy=[1,0,-1,0]
 def find_attack():
     l_power = 5001
     l_t = 0
-    for k in range(n+m-2,-1,-1):
-        for i in range(n):
-            for j in range(m):
+    for k in range(n+m-2):
+        for j in range(m):
+            for i in range(n):
                 if k == (i+j):
                     n_t = recent_attack[i][j]
-                    if l_t <= n_t and l_power >= maps[i][j] and maps[i][j] > 0 :
-                        l_power = maps[i][j]
-                        l_t = recent_attack[i][j]
-                        lx,ly = i,j
+                    print(i,j)
+                    if maps[i][j] > 0 :
+                        if l_power > maps[i][j] :
+                            l_power = maps[i][j]
+                            l_t = recent_attack[i][j]
+                            lx,ly = i,j
+                        elif l_power == maps[i][j] and l_t <= n_t :
+                                l_power = maps[i][j]
+                                l_t = recent_attack[i][j]
+                                lx, ly = i, j
+
 
     #print(l_power,lx,ly)
     return lx,ly
@@ -37,14 +44,21 @@ def find_attack():
 def find_hitted():
     m_t = 100000
     m_power = 0
-    for k in range(n+m-2):
-        for j in range(m):
-            for i in range(n):
+    for k in range(n+m-2,-1,-1):
+        for i in range(n):
+            for j in range(m):
                 if k == (i+j):
-                    n_t = recent_attack[i][j]
-                    if n_t <= m_t and m_power < maps[i][j] and maps[i][j] > 0 :
-                        m_power = maps[i][j]
-                        mx,my = i,j
+                    print('어라',i,j)
+                    if maps[i][j] > 0 :
+                        n_t = recent_attack[i][j]
+                        if  m_power < maps[i][j] :
+                            m_power = maps[i][j]
+                            mx,my = i,j
+                            m_t = recent_attack[i][j]
+                        elif m_power == maps[i][j] and m_t >= n_t :
+                            m_power = maps[i][j]
+                            mx,my = i,j
+                            m_t = recent_attack[i][j]
 
     #print(m_power,mx,my)
     return mx,my
@@ -114,8 +128,12 @@ def health_up_non_attack():
                 maps[i][j] += 1
     return
 
-
-
+def  make_zero_tower() :
+    for i in range(n):
+        for j in range(m):
+            if maps[i][j] <0 :
+                maps[i][j] = 0
+    return
 for rounds in range(1,k+1):
 
     #초기화
@@ -133,4 +151,5 @@ for rounds in range(1,k+1):
     if possible == False:
         bomb_attack(ax,ay,hx,hy)
     health_up_non_attack()
+    make_zero_tower()
 print(max_tower())
