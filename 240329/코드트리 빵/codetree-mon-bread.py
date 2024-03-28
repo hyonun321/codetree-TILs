@@ -1,6 +1,6 @@
 import sys
 from collections import deque
-sys.stdin = open('코드트리 빵.txt','r')
+#sys.stdin = open('코드트리 빵.txt','r')
 deb =0
 n,m = map(int,input().split())
 
