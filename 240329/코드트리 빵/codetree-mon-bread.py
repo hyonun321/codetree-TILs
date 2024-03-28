@@ -64,14 +64,15 @@ def cal_distance(x1,y1,x2,y2):
                 queue.append((nx,ny,arr+[(x,y)]))
                 visited[nx][ny] = visited[x][y] + 1
 
-
+    if len(arr) <= 1 : return 10000,(x1,y1)
+    if visited[x2][y2] == 0 : return 100,(x1,y1)#이건 갈수없다는뜻.
     #print(visited)
     return visited[x2][y2], arr[1] # 여기서문제날수도있음.
 
 def basecamp_in(rounds):
     if rounds <= m :
         cx,cy,_ = combini[rounds]
-        m_dist = 100000
+        m_dist = 1000000
         for i in range(n):
             for j in range(n):
                 if maps[i][j] == 1 :
