@@ -103,8 +103,8 @@ def loser_move(number):
     if in_range(nx,ny) :
         p_info[number] = [nx,ny,pd,ps]
     else :
-        for num in range(3):
-            nnd = (pd +1)%4
+        for num in range(4):
+            nnd = (pd +num)%4
             nnx,nny =px+dx[nnd],py+dy[nnd]
             if in_range(nnx,nny):
                 #빈칸이 보인다면?
