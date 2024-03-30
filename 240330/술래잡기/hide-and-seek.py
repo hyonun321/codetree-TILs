@@ -36,7 +36,7 @@ def one_runner_move(number):
     if cal_dist(number) <= 3 : # 술래와 거리가 3이하만 움직인다.
         nx,ny = rx+dx[rd],ry+dy[rd]
         if in_range(nx,ny):
-            if cx==nx and cy == cy : #안움직인다.
+            if cx==nx and cy == ny : #안움직인다.
                 return
             else : # 술래가 없다면
                 run_arr[number] = nx,ny,rd
