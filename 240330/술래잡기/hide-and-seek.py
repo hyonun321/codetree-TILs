@@ -108,6 +108,7 @@ def catch_move():
             if cx == n//2 and cy == n//2 : #어라?
                 cd = 0
                 catch_forward = True
+                visited = [[False for _ in range(n)] for _ in range(n)]
         else :pass
 
 
