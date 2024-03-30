@@ -56,13 +56,14 @@ def all_runner_move():
     return
 
 visited = [ [False for _ in range(n)] for _ in range(n)]
-def catch_move(catch_forward):
-    global  cx,cy,cd
+def catch_move():
+    global  cx,cy,cd,catch_forward,visited
     if catch_forward: # n//2,n//2 에서 0,0까지
         # 0,0일때랑, n//2,n//2 일때 처리를 해줘야해.
         if cx== n//2 and cy == n//2 :
             visited[cx][cy] = True
             cx,cy = cx+dx[cd],cy+dy[cd]
+            visited[cx][cy] = True
             cd = (cd+1)%4
             return
         #나머지들은?
@@ -71,14 +72,43 @@ def catch_move(catch_forward):
         ncx,ncy = cx+dx[ncd],cy+dy[ncd]
         if in_range(ncx,ncy) and visited[ncx][ncy] == True:
             cx,cy = cx+dx[cd],cy+dy[cd] # 한칸 이동하고 바로 돌려야해
-            ncx, ncy = cx + dx[ncd], cy + dy[ncd]
-            if in_range(ncx,ncy) and visited[ncx][ncy] == False:
-                cd = (cd +1)%4
+            visited[cx][cy] = True
+            #이동한거야.
+            if cx == 0 and cy == 0 : #어라?
+                cd = 2
+                catch_forward = False
+                visited = [ [False for _ in range(n)] for _ in range(n)]
+            else :
+                ncx, ncy = cx + dx[ncd], cy + dy[ncd]
+                if in_range(ncx,ncy) and visited[ncx][ncy] == False:
+                    cd = (cd +1)%4
         else : #방문한적이 없어
             pass
 
     else : #0,0에서 n//2,n//2까지
-        pass
+        if cx== 0 and cy == 0 :
+            visited[cx][cy] = True
+            cx,cy = cx+dx[cd],cy+dy[cd]
+            visited[cx][cy] = True
+            return
+        #나머지들은?
+        ncx,ncy = cx+dx[cd],cy+dy[cd]
+        if in_range(ncx,ncy) :
+            if visited[ncx][ncy] :
+                cd = (cd-1)%4
+            else :
+                cx,cy = cx+dx[cd],cy+dy[cd] # 한칸 이동하고 바로 돌려야해
+                visited[cx][cy] = True
+                ncx, ncy = cx + dx[cd], cy + dy[cd]
+                if in_range(ncx,ncy) and visited[ncx][ncy] == False:
+                    pass
+                else :
+                    cd = (cd -1)%4
+            #이동한거야.
+            if cx == n//2 and cy == n//2 : #어라?
+                cd = 0
+                catch_forward = True
+        else :pass
 
 
     return
@@ -104,6 +134,6 @@ point = 0
 catch_forward = True
 for rounds in range(1,k+1):
     all_runner_move()
-    catch_move(catch_forward)
+    catch_move()
     point += catch_look(rounds)
 print(point)
