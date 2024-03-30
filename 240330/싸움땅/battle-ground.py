@@ -93,6 +93,13 @@ def batte(anum,bnum):
             point[bnum] += power_diff
             return bnum, anum
 
+def loser_check_player(nx,ny,number):
+    for t in range(m):
+        if t == number : continue
+        tx,ty,td,ts = p_info[t]
+        if tx==nx and ty == ny :
+            return False
+    return True
 def loser_move(number):
     px,py,pd,ps = p_info[number]
 
@@ -100,13 +107,13 @@ def loser_move(number):
     pgun = p_gun[number]
     heapq.heappush(maps[px][py],-pgun)
     p_gun[number] = 0
-    if in_range(nx,ny) :
+    if in_range(nx,ny) and loser_check_player(nx,ny,number):
         p_info[number] = [nx,ny,pd,ps]
     else :
-        for num in range(4):
+        for num in range(1,4):
             nnd = (pd +num)%4
             nnx,nny =px+dx[nnd],py+dy[nnd]
-            if in_range(nnx,nny):
+            if in_range(nnx,nny) and loser_check_player(nnx,nny,number):
                 #빈칸이 보인다면?
                 p_info[number] = [nnx,nny,nnd,ps]
                 return
