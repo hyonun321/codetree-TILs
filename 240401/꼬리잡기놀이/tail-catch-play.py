@@ -56,6 +56,7 @@ def move_all():
             for num in range(4):
                 nx,ny = x+dx[num],y+dy[num]
                 if in_range(nx,ny) and visited[nx][ny] == False and (maps[nx][ny] >= 2)  :
+                    if x == gx and y == gy and maps[nx][ny] >= 3 : continue
                     queue.append((nx,ny))
                     visited[nx][ny] = True
                     g_arr.append((nx,ny))
@@ -65,7 +66,7 @@ def move_all():
 
         for num in range(4):
             nx,ny = gx+dx[num],gy+dy[num]
-            if in_range(nx,ny) and (maps[nx][ny] == 0 or maps[nx][ny] == len(g_arr) ) :
+            if in_range(nx,ny) and (maps[nx][ny] == 0 or maps[nx][ny] == 3 or maps[nx][ny] == len(g_arr)) :
                 # 갈수있어!
                 g_arr.appendleft((nx,ny))
                 break
