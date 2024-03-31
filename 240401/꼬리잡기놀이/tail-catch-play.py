@@ -118,8 +118,9 @@ def shot(sx,sy,sd):
 
 def shoot_ball(rounds):
     #sd 는 0 상 1 우 2 하 3 좌
+    trounds = rounds
     rounds = (rounds)% (4*n)
-    if rounds <= n  :
+    if 0< rounds <= n  :
         sx = rounds -1
         sy = 0
         shot(sx,sy,1)
@@ -128,12 +129,16 @@ def shoot_ball(rounds):
         sy = rounds -n -1
         shot(sx,sy,0)
     elif 2*n+1<=rounds <= 3*n :
-        sx=n-1 - ( rounds - 2*n + 1)
+        sx=n-1 - ( rounds - (2*n + 1))
         sy=n-1
         shot(sx,sy,3)
-    elif 3*n +1 <= rounds <= 4*n :
+    elif 3*n +1 <= rounds <= 4*n:
         sx=0
-        sy=n-1-( rounds - 2*n + 1)
+        sy=n-1-( rounds - (3*n + 1))
+        shot(sx,sy,2)
+    elif rounds == 0 :
+        sx=0
+        sy=0
         shot(sx,sy,2)
     else : pass # 이게걸려?
 
