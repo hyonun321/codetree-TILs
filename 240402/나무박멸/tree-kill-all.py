@@ -61,7 +61,6 @@ def zecho_act(x,y):
                 point += maps[nx][ny]
                 zecho_arr.append((nx,ny))
             elif in_range(nx,ny) and (maps[nx][ny] == -1 or maps[nx][ny] == 0):
-                point += maps[nx][ny]
                 zecho_arr.append((nx,ny))
                 die_direction.append(num)
     return point,zecho_arr
@@ -94,17 +93,17 @@ def kill_tree(rounds,mx,my,marr):
     #            maps[nx][ny] = 0
     for x,y in marr:
         if maps[x][y] == -1 :
-            diezone[x][y] = rounds + c
+            diezone[x][y] = rounds + c +1
         else :
             maps[x][y] = 0
-            diezone[x][y] = rounds + c
+            diezone[x][y] = rounds + c +1
 
     return
 answer = 0
 for rounds in range(m):
     tree_grow()
     tree_bunsik(rounds)
-    c,mx,my,marr = zechoze()
-    answer += c
+    c1,mx,my,marr = zechoze()
+    answer += c1
     kill_tree(rounds,mx,my,marr)
 print(answer)
