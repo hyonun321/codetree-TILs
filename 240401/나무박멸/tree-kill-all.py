@@ -67,6 +67,7 @@ def zecho_act(x,y):
 def zechoze():
     max_die = 0
     max_arr= []
+    mx,my = -1,-1
     for i in range(n):
         for j in range(n):
             if maps[i][j] >0 :
@@ -78,7 +79,7 @@ def zechoze():
     return max_die,mx,my,max_arr
 
 def kill_tree(rounds,mx,my,marr):
-
+    if mx == -1 : return
     maps[mx][my] = 0
     diezone[mx][my] = rounds+2
 
