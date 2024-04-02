@@ -74,7 +74,7 @@ def pacman_move(rounds):
     #64개의 이동방향 (상좌하우)
     #배열밖안나감
     #이동과정 몬스터만 먹음 (자기자리에있는애는 안먹음)
-    mcount = 0
+    mcount = -1
     m_way = []
     for i in range(4):
         for j in range(4):
@@ -88,12 +88,12 @@ def pacman_move(rounds):
         px,py = (m_way[2])
     # 이제 최종 m 을 가지고 몬스터들을 다 죽음처리를 해주면된다.
     # 시간초과 우려
-    for mn in range(len(m_arr)):
-        mx,my,md = m_arr[mn]
-        if (mx,my) in m_way:
-            m_arr[mn]= -100,-100,-100 # 우주로 보내기..?
-            # 시체만들기
-            dead_body[mx][my] = rounds +3 # 시체턴?
+        for mn in range(len(m_arr)):
+            mx,my,md = m_arr[mn]
+            if (mx,my) in m_way:
+                m_arr[mn]= -100,-100,-100 # 우주로 보내기..?
+                # 시체만들기
+                dead_body[mx][my] = rounds +3 # 시체턴?
     # 팩맨 위치 업데이트 필요.
     return
 
@@ -118,10 +118,9 @@ def monster_count_update():
 
 def cal_monster():
     count = 0
-    for monster in range(len(m_arr)):
-        mx,my,_ = m_arr[monster]
-        if mx == -100 : continue # 수정예정
-        count +=1
+    for i in range(n):
+        for j in range(n):
+            count += monster_count_arr[i][j]
     return count
 pdx=[-1,0,1,0]
 pdy=[0,-1,0,1]
@@ -146,5 +145,7 @@ for rounds in range(t):
     monster_move(rounds)
     monster_count_update()
     pacman_move(rounds)
+    monster_count_update()
     egg_up()
+    monster_count_update()
 print(cal_monster())
