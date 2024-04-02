@@ -1,7 +1,7 @@
 import sys
 
 
-sys.stdin = open('팩맨.txt','r')
+#sys.stdin = open('팩맨.txt','r')
 # 몬스터 개수를 매번세는데,
 # 4x4 인걸로봐서 4x4 순회를 하면 왠지더 빨리 풀 수 있을꺼같음. 만약 시간초과나면 4x4로 바꾸기 (3차원배열)
 def in_range(x,y):
