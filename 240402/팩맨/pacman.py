@@ -84,7 +84,8 @@ def pacman_move(rounds):
                     mcount = tcount
                     mi,mj,mz = i,j,z
                     m_way = way_arr
-    px,py = (m_way[2])
+    if len(m_way) != 0 :
+        px,py = (m_way[2])
     # 이제 최종 m 을 가지고 몬스터들을 다 죽음처리를 해주면된다.
     # 시간초과 우려
     for mn in range(len(m_arr)):
