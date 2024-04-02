@@ -1,7 +1,7 @@
 import sys
 
 
-#sys.stdin = open('팩맨.txt','r')
+sys.stdin = open('팩맨.txt','r')
 # 몬스터 개수를 매번세는데,
 # 4x4 인걸로봐서 4x4 순회를 하면 왠지더 빨리 풀 수 있을꺼같음. 만약 시간초과나면 4x4로 바꾸기 (3차원배열)
 def in_range(x,y):
@@ -14,6 +14,24 @@ def monster_make_egg():
         mx,my,md = m_arr[mon]
         if mx == -100 : continue # 수정예정
         eggs.append((mx,my,md))
+
+    return
+
+def update_monster():
+    global m_arr
+    t_arr = []
+
+    for mon in range(len(m_arr)):
+
+        mx,my,md = m_arr[mon]
+        if mx == -100 : continue
+        t_arr.append((mx,my,md))
+
+    m_arr = []
+
+    for m in range(len(t_arr)):
+        mx,my,md = t_arr[m]
+        m_arr.append((mx,my,md))
 
     return
 
@@ -145,6 +163,7 @@ for rounds in range(t):
     monster_move(rounds)
     monster_count_update()
     pacman_move(rounds)
+    update_monster()
     monster_count_update()
     egg_up()
     monster_count_update()
