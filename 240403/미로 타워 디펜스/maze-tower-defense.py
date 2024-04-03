@@ -113,11 +113,14 @@ def fourtimes_check():
                 if len(t_arr) >= 4 : # 4개가 넘어가면 바꾸기 전에 그녀석 저장
                     delete_arr.append(t_arr)
                 t_arr=[(x,y)]
+            if count >= 4:
+                possible = True
         else :
-            delete_arr.append(t_arr)
-
-        if count >= 4 :
-            possible = True
+            if len(t_arr) >= 4 :
+                delete_arr.append(t_arr)
+            if count >= 4 :
+                possible = True
+            break
 
 
 
