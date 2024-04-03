@@ -1,6 +1,6 @@
 import sys
 from collections import deque
-sys.stdin = open('미로타워디펜스.txt','r')
+#sys.stdin = open('미로타워디펜스.txt','r')
 
 n,m = map(int,input().split())
 
