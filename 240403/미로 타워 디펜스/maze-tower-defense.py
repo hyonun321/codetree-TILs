@@ -1,6 +1,6 @@
 import sys
 from collections import deque
-#sys.stdin = open('미로타워디펜스.txt','r')
+sys.stdin = open('미로타워디펜스.txt','r')
 
 n,m = map(int,input().split())
 
@@ -113,7 +113,8 @@ def fourtimes_check():
                 if len(t_arr) >= 4 : # 4개가 넘어가면 바꾸기 전에 그녀석 저장
                     delete_arr.append(t_arr)
                 t_arr=[(x,y)]
-
+        else :
+            delete_arr.append(t_arr)
 
         if count >= 4 :
             possible = True
