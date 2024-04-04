@@ -22,7 +22,7 @@ def is_not_bomb():
     return
 
 def find_max_bomb():
-
+    global maps
 
     level = 1
     fine_bomb_arr = []
@@ -102,13 +102,19 @@ def break_bomb(bomb_arr):
         #print(arr)
         arr.sort(key=lambda x:(x[0],-x[1],x[2]))
         #print(arr)
-        if arr[0][0] == 0 : #
-            rcount +=1
-        #print(mx <= arr[1][1])
-        #print(-my <= -arr[1][2])
+
+        for num,x,y in arr :
+            if num == 0 : #
+                rcount +=1
+            if num != 0 :
+                fx=x
+                fy=y
+                break
+        # 빨간색이 아닌 최초의 블럭을 구해야함.
+
         if (rcount,mx,-my) <= (mred,arr[1][1],-arr[1][2]) :
             mred = rcount
-            mx,my = arr[1][1],arr[1][2]
+            mx,my = fx,fy
             m_arr = arr.copy()
     point = 0
     for aaa,aax,aay in m_arr:
