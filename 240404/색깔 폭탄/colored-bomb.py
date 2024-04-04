@@ -112,7 +112,7 @@ def break_bomb(bomb_arr):
                 break
         # 빨간색이 아닌 최초의 블럭을 구해야함.
 
-        if (rcount,mx,-my) <= (mred,arr[1][1],-arr[1][2]) :
+        if (rcount,mx,-my) <= (mred,fx,-fy) :
             mred = rcount
             mx,my = fx,fy
             m_arr = arr.copy()
