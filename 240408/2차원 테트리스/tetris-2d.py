@@ -137,7 +137,7 @@ def red_down(bt,bx,by):
 def delete_line():
     count = 0
     # yellow
-    t_y = [[ 0 for _ in range(4)] for _ in range(4)]
+    t_y = [[ 0 for _ in range(4)] for _ in range(6)]
     delete = []
     for i in range(9,5,-1):
         chk = 0
@@ -147,19 +147,19 @@ def delete_line():
         if chk == 4 :
             count +=1
             delete.append(i)
-    idx = 3
-    for i in range(9,5,-1):
+    idx = 5
+    for i in range(9,3,-1):
         if i in delete : continue
         for j in range(4):
             t_y[idx][j] = yellow[i][j]
         idx -= 1
-    for i in range(9,5,-1):
+    for i in range(9,3,-1):
         for j in range(4):
-            yellow[i][j] = t_y[i-6][j]
+            yellow[i][j] = t_y[i-4][j]
 
 
     # red
-    t_r = [[ 0 for _ in range(4)] for _ in range(4)]
+    t_r = [[ 0 for _ in range(6)] for _ in range(4)]
     delete1 = []
     for j in range(9,5,-1):
         chk = 0
@@ -169,15 +169,15 @@ def delete_line():
         if chk == 4 :
             count +=1
             delete1.append(j)
-    idx = 3
-    for j in range(9,5,-1):
+    idx = 5
+    for j in range(9,3,-1):
         if j in delete1 : continue
         for i in range(4):
             t_r[i][idx] = red[i][j]
         idx -= 1
-    for j in range(9,5,-1):
+    for j in range(9,3,-1):
         for i in range(4):
-            red[i][j] = t_r[i][j-6]
+            red[i][j] = t_r[i][j-4]
     return count
 
 def push_line():
@@ -242,7 +242,7 @@ def cal_block():
 
 
     # red
-    for j1 in range(4,10,1):
+    for j1 in range(6,10,1):
         for i1 in range(4):
             if red[i1][j1] >0 :
                 count +=1
@@ -256,7 +256,8 @@ for _ in range(k):
     block_insert(bt,bx,by)
     yellow_down(bt,bx,by)
     red_down(bt,bx,by)
-    push_line()
     point += delete_line()
+    push_line()
+
 print(point)
 print(cal_block())
