@@ -62,7 +62,7 @@ def roodolf_move(rounds):
         s_map[rr][rc] = 0
         #밀려나기 구현
         nnx,nny = sx+c*dx[r_num],sy+c*dy[r_num]
-        if in_range(nnx,nny): # 밖으로 나갈때
+        if in_range(nnx,nny): # 밖으로 안 나갈때
             #만약에 밀려난곳에 산타가 있나 체크해야함
             s_where[santa] = nnx,nny
             mnumber = santa
@@ -139,7 +139,7 @@ def one_san_move(santa,rounds):
 def push(x,y,num,r_num):
 
     mnumber = s_map[x][y]
-    s_where[mnumber] = x,y
+    s_where[num] = x,y
     s_map[x][y] = num
     mx,my = x+dx[r_num],y+dy[r_num]
     return mx,my,mnumber
