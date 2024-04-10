@@ -26,7 +26,7 @@ def in_range(x, y):
 
 def night_move(oi, od):
     r1, c1, h1, w1, k1 = night_info[oi]
-    if k1 <= 0: return False
+    if k1 <= 0: return False,[],[]
     visited = [[False for _ in range(l)] for _ in range(l)]
     queue = deque()
     can_go = []
