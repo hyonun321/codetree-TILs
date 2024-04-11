@@ -15,8 +15,9 @@ def rotate(x, y, l, arr, check):
     t_maps = [[arr[i1][j1] for j1 in range(n)] for i1 in range(n)]
     for i in range(l):
         for j in range(l):
-            if t_maps[i + x][j + y] > 0:
-                t_maps[i + x][j + y] -= 1
+            if check:
+                if t_maps[i + x][j + y] > 0:
+                    t_maps[i + x][j + y] -= 1
             arr[j + x][l - i - 1 + y] = t_maps[i + x][j + y]
     # 회전벽 내구도 깎이기 넣어야함
 
