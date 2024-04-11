@@ -12,17 +12,14 @@ dy = [0, 0, -1, 1]
 
 
 def rotate(x, y, l, arr, check):
-    t_maps = [[0 for _ in range(n)] for _ in range(n)]
+    t_maps = [[arr[i1][j1] for j1 in range(n)] for i1 in range(n)]
     for i in range(l):
         for j in range(l):
-            t_maps[j + x][l - i - 1 + y] = arr[i + x][j + y]
+            if t_maps[i + x][j + y] > 0:
+                t_maps[i + x][j + y] -= 1
+            arr[j + x][l - i - 1 + y] = t_maps[i + x][j + y]
     # 회전벽 내구도 깎이기 넣어야함
-    for i in range(l):
-        for j in range(l):
-            if check:
-                if t_maps[i + x][j + y] > 0:
-                    t_maps[i + x][j + y] -= 1
-            arr[i + x][j + y] = t_maps[i + x][j + y]
+
     return
 
 
@@ -48,11 +45,11 @@ def runner_move():
                             min_um = um
                             now = moved
                             mx, my = nx, ny
-                            count +=r_map[rx][ry]
+                            count +=r_map[rx][ry] ## 체크
                 if min_um == -1:  # 그냥 가만히있기
-                    t_rmap[rx][ry] += r_map[rx][ry]
+                    t_rmap[rx][ry] += r_map[rx][ry] ## 체크
                     continue
-                t_rmap[mx][my] += r_map[rx][ry]
+                t_rmap[mx][my] += r_map[rx][ry] ## 체크
     r_map = [[t_rmap[i][j] for j in range(n)] for i in range(n)]
     return count
 
