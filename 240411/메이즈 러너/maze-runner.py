@@ -50,9 +50,9 @@ def runner_move():
                             mx, my = nx, ny
                             count +=r_map[rx][ry]
                 if min_um == -1:  # 그냥 가만히있기
-                    t_rmap[rx][ry] = r_map[rx][ry]
+                    t_rmap[rx][ry] += r_map[rx][ry]
                     continue
-                t_rmap[mx][my] = r_map[rx][ry]
+                t_rmap[mx][my] += r_map[rx][ry]
     r_map = [[t_rmap[i][j] for j in range(n)] for i in range(n)]
     return count
 
@@ -110,10 +110,10 @@ def runner_exit_check():
     for i in range(n):
         for j in range(n):
             if r_map[i][j] >0 :
-                count += r_map[i][j]
+                count += 1
                 if i == ex and j == ey:
-                    count -=r_map[i][j]
                     r_map[i][j] = 0
+                    count -= 1
 
     if count == 0 :
         return True
