@@ -48,7 +48,7 @@ def runner_move():
                             min_um = um
                             now = moved
                             mx, my = nx, ny
-                            count +=1
+                            count +=r_map[rx][ry]
                 if min_um == -1:  # 그냥 가만히있기
                     t_rmap[rx][ry] = r_map[rx][ry]
                     continue
@@ -59,14 +59,12 @@ def runner_move():
 
 n, m, k = map(int, input().split())
 maps = [list(map(int, input().split())) for _ in range(n)]
-runner = []
 r_map = [[0 for _ in range(n)] for _ in range(n)]
 for _ in range(m):
     r, c = map(int, input().split())
     r -= 1
     c -= 1
     r_map[r][c] += 1
-    runner.append((r, c))
 ex, ey = map(int, input().split())
 ex -= 1
 ey -= 1
@@ -108,16 +106,22 @@ def exit_update():
 
 
 def runner_exit_check():
+    count = 0
     for i in range(n):
         for j in range(n):
-            if r_map[i][j] > 0:
+            if r_map[i][j] >0 :
+                count += r_map[i][j]
                 if i == ex and j == ey:
+                    count -=r_map[i][j]
                     r_map[i][j] = 0
 
+    if count == 0 :
+        return True
+    return False
 answer = 0
 for rounds in range(k):
     answer += runner_move()
-    runner_exit_check()
+    if runner_exit_check() : break
     size, erx, ery = rotate_exit()
     rotate(erx, ery, size, maps, True)
     rotate(erx, ery, size, r_map, False)
