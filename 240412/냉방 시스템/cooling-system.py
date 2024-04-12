@@ -63,7 +63,7 @@ def spread(power, x, y, d):
     # 대각선 반시계
     visited[x][y] = True
     cool[x][y] += power
-    if power == 0 :
+    if power == 1 :
         return
     dd = (d - 1) % 4
     d1x, d1y = x + dx[dd], y + dy[dd]
