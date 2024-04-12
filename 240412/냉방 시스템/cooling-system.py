@@ -114,16 +114,10 @@ def mix_wind():
     for i in range(N):
         for j in range(N):
             level = cool[i][j]
-            bd, bb = False, False
-            if 0 in wall_arr[i][j]:
-                bd = True
-            if 1 in wall_arr[i][j]:
-                bb = True
             for num in range(4):
-                if bd and num == 1: continue
-                if bb and num == 0: continue
                 nx, ny = i + dx[num], j + dy[num]
                 if in_range(nx, ny):
+                    if [(i, j), (nx, ny)] in cant_go: continue
                     n_level = cool[nx][ny]
                     if (level - n_level) >= 4:
                         diff = (level - n_level) // 4
