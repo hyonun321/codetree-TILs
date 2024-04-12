@@ -181,3 +181,6 @@ while True:
     if room_cooling_check():
         print(rounds)
         break
+    if rounds > 100 :
+        print(-1)
+        break
