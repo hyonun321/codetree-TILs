@@ -14,10 +14,12 @@ def find_attacker(rounds):
     min_power = 1e8
     mx, my = -1, -1
     for size in range(n + m - 1):
-        for item in range(m):  # m범위 위험
-            j = item
-            i = size - j
+        for item in range(n):  # m범위 위험
+            i = item
+            j = size - i
+
             if not in_range(i, j): continue
+            #print(i,j)
             if 0 < maps[i][j] < min_power:  # 가장낮음
                 min_power = maps[i][j]
                 mx, my = i, j
@@ -36,11 +38,11 @@ def find_enermy():
     max_power = -1
     px, py = -1, -1
     for size in range(n + m - 2, -1, -1):
-        for item in range(m):  # m범위 위험
+        for item in range(n):  # m범위 위험
             i = item
             j = size - i
             if not in_range(i, j): continue
-            # print(i,j)
+            #print(i,j)
             if maps[i][j] > 0 and maps[i][j] > max_power:  # 가장큼
                 max_power = maps[i][j]
                 px, py = i, j
