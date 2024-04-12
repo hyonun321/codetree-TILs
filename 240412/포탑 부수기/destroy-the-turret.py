@@ -106,7 +106,7 @@ def find_most_powerful_tower():
     m1 = 0
     for i in range(n):
         for j in range(m):
-            if maps[i][j] > m:
+            if maps[i][j] > m1:
                 m1 = maps[i][j]
     return m1
 
