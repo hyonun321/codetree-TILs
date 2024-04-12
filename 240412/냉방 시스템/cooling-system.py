@@ -1,5 +1,5 @@
 import sys
-
+from collections import defaultdict
 #sys.stdin = open('냉방 시스템1.txt', 'r')
 
 N, M, K = map(int, input().split())
@@ -35,20 +35,19 @@ def in_range(x, y):
 
 # 내가있는곳이 막혀있을때.
 # 내가 가야하는곳이 막혀있을때.
-cant_go = []
+cant_go = defaultdict(list)
 
 
 def make_wall():
     for x, y, z in wall_1st_arr:
         if z == 0:  # 바로위
             nx, ny = x + dx[1], y + dy[1]
-            cant_go.append([(x, y), (nx, ny)])
-            cant_go.append([(nx, ny), (x, y)])
+            cant_go[((x, y), (nx, ny))] = True
+            cant_go[((nx, ny), (x, y))] = True
         if z == 1:  # 바로왼쪽
             nx, ny = x + dx[0], y + dy[0]
-            cant_go.append([(x, y), (nx, ny)])
-            cant_go.append([(nx, ny), (x, y)])
-    #print(cant_go)
+            cant_go[((x, y), (nx, ny))] = True
+            cant_go[((nx, ny), (x, y))] = True
 
     return
 
@@ -67,10 +66,10 @@ def spread(power, x, y, d):
         return
     dd = (d - 1) % 4
     d1x, d1y = x + dx[dd], y + dy[dd]
-    if not [(x, y), (d1x, d1y)] in cant_go:
+    if not cant_go[(x,y),(d1x,d1y)] == True :
         if in_range(d1x, d1y) and visited[d1x][d1y] == False:
             dd1x, dd1y = d1x + dx[d], d1y + dy[d]
-            if not [(d1x,d1y),(dd1x,dd1y)] in cant_go:
+            if not cant_go[(d1x,d1y),(dd1x,dd1y)] == True :
                 if in_range(dd1x, dd1y) and visited[dd1x][dd1y] == False:
                     spread(power - 1, dd1x, dd1y, d)
     # 대각선 시계
@@ -78,16 +77,16 @@ def spread(power, x, y, d):
     d2x, d2y = x + dx[dd], y + dy[dd]
     # d방향에 따라 다르게 해줘야함.
     #print(not [(d2x, d2y), (x, y)] in cant_go)
-    if not [(x, y), (d2x, d2y)] in cant_go:
+    if not cant_go[(x,y),(d2x,d2y)] == True :
         if in_range(d2x, d2y) and visited[d2x][d2y] == False:
             dd2x, dd2y = d2x + dx[d], d2y + dy[d]
-            if not [(d2x,d2y),(dd2x,dd2y)] in cant_go:
+            if not cant_go[(d2x,d2y),(dd2x,dd2y)] == True :
                 if in_range(dd2x, dd2y) and visited[dd2x][dd2y] == False:
                     spread(power - 1, dd2x, dd2y, d)
 
     # 직선
     nx, ny = x + dx[d], y + dy[d]
-    if not [(x, y), (nx, ny)] in cant_go:
+    if not cant_go[(x,y),(nx,ny)] == True :
         if in_range(nx, ny) and visited[nx][ny] == False:
             spread(power - 1, nx, ny, d)
     return
@@ -119,12 +118,12 @@ def mix_wind():
             for num in range(4):
                 nx, ny = i + dx[num], j + dy[num]
                 if in_range(nx, ny):
-                    if [(i, j), (nx, ny)] in cant_go: continue
-                    n_level = cool[nx][ny]
-                    if (level - n_level) >= 4:
-                        diff = (level - n_level) // 4
-                        t_cool[i][j] -= diff
-                        t_cool[nx][ny] += diff
+                    if not cant_go[(i,j),(nx,ny)] == True :
+                        n_level = cool[nx][ny]
+                        if (level - n_level) >= 4:
+                            diff = (level - n_level) // 4
+                            t_cool[i][j] -= diff
+                            t_cool[nx][ny] += diff
 
     for i in range(N):
         for j in range(N):
