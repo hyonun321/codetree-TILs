@@ -60,7 +60,7 @@ dy = [1, 0, -1, 0]
 def lazer_attack(ax, ay, bx, by):
     queue = deque()
     visited = [[False for _ in range(m)] for _ in range(n)]
-    queue.append((ax, ay, [(ax, ay)]))
+    queue.append((ax, ay,[(ax,ay)]))
     visited[ax][ay] = True
     while queue:
         x, y, arr = queue.popleft()
@@ -68,7 +68,7 @@ def lazer_attack(ax, ay, bx, by):
             return True, arr
         for num in range(4):
             nx, ny = x + dx[num], y + dy[num]
-            nx, ny = (nx + n) % n, (ny + n) % m
+            nx, ny = (nx + n) % n, (ny + m) % m
             if in_range(nx, ny) and visited[nx][ny] == False and maps[nx][ny] != 0 :
                 queue.append((nx, ny, arr + [(nx, ny)]))
                 visited[nx][ny] = True
@@ -83,7 +83,7 @@ def bomb_attack(ax,ay,bx,by):
     attacked_arr = [(ax,ay),(bx,by)]
     for num in range(8):
         nx,ny = bx+bdx[num],by+bdy[num]
-        nx,ny = (nx+n)%n , (ny+n)%m
+        nx,ny = (nx+n)%n , (ny+m)%m
         if in_range(nx,ny) and maps[nx][ny] != 0 :
             maps[nx][ny] -= power//2
             attacked_arr.append((nx,ny))
@@ -129,6 +129,7 @@ recent_attack = [[0 for _ in range(m)] for _ in range(n)]
 for rounds in range(1,k+1):
     ax, ay = find_attacker(rounds)
     bx, by = find_enermy()
+    if ax == bx and ay == by : break # 포탑이 이제 없을때
     maps[ax][ay] += n + m # 공격자 선정후 공격력올리기(안그러면 가장큰놈찾을때 영향)
     possible , move_arr = lazer_attack(ax, ay, bx, by)
     if not possible :
