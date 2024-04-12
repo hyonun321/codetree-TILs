@@ -71,7 +71,7 @@ def lazer_attack(ax, ay, bx, by):
         for num in range(4):
             nx, ny = x + dx[num], y + dy[num]
             nx, ny = (nx + n) % n, (ny + m) % m
-            if in_range(nx, ny) and visited[nx][ny] == False and maps[nx][ny] != 0 :
+            if in_range(nx, ny) and visited[nx][ny] == False and maps[nx][ny] > 0 :
                 queue.append((nx, ny, arr + [(nx, ny)]))
                 visited[nx][ny] = True
 
@@ -86,6 +86,7 @@ def bomb_attack(ax,ay,bx,by):
     for num in range(8):
         nx,ny = bx+bdx[num],by+bdy[num]
         nx,ny = (nx+n)%n , (ny+m)%m
+        if nx == ax and ny == ay : continue
         if in_range(nx,ny) and maps[nx][ny] != 0 :
             maps[nx][ny] -= power//2
             attacked_arr.append((nx,ny))
