@@ -28,7 +28,6 @@ def find_attacker(rounds):
                     min_power = maps[i][j]
                     mx, my = i, j
     # 최종 공격자 선정
-    maps[mx][my] += n + m
     recent_attack[mx][my] = rounds
     return (mx, my)
 
@@ -130,6 +129,7 @@ recent_attack = [[0 for _ in range(m)] for _ in range(n)]
 for rounds in range(1,k+1):
     ax, ay = find_attacker(rounds)
     bx, by = find_enermy()
+    maps[ax][ay] += n + m # 공격자 선정후 공격력올리기(안그러면 가장큰놈찾을때 영향)
     possible , move_arr = lazer_attack(ax, ay, bx, by)
     if not possible :
         move_arr = bomb_attack(ax,ay,bx,by)
