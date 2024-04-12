@@ -48,7 +48,7 @@ def make_wall():
             nx, ny = x + dx[0], y + dy[0]
             cant_go.append([(x, y), (nx, ny)])
             cant_go.append([(nx, ny), (x, y)])
-    print(cant_go)
+    #print(cant_go)
 
     return
 
@@ -75,7 +75,7 @@ def spread(power, x, y, d):
     dd = (d + 1) % 4
     d2x, d2y = x + dx[dd], y + dy[dd]
     # d방향에 따라 다르게 해줘야함.
-    print(not [(d2x, d2y), (x, y)] in cant_go)
+    #print(not [(d2x, d2y), (x, y)] in cant_go)
     if not [(x, y), (d2x, d2y)] in cant_go:
         if in_range(d2x, d2y) and visited[d2x][d2y] == False:
             dd2x, dd2y = d2x + dx[d], d2y + dy[d]
