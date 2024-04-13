@@ -44,8 +44,6 @@ for _ in range(Q):
         K, S = map(int, (strings[1], strings[2]))
         # print(K, S)
         jumped = []
-        for tt in range(P):
-            moved[tt] = 0
         for _ in range(K):
             p1, p2, p3, p4, ppid = heapq.heappop(priority)
             one_dist = dist[ppid]
