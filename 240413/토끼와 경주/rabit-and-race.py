@@ -19,7 +19,7 @@ for _ in range(Q):
         M = int(M)
         P = int(P)
         for tt in range(P):
-            tpid, td1 = map(int, (strings[4 + tt * P], strings[5 + tt * P]))
+            tpid, td1 = map(int, (strings[4 + 2*tt], strings[5 + 2*tt]))
             dist[tpid] = td1
             priority.append((0, 0, 0, 0, tpid))
             jumping[tpid] = 0
