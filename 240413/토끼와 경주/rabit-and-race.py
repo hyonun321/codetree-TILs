@@ -1,7 +1,8 @@
 import sys
-
+import heapq
 #sys.stdin = open('토끼와경주.txt', 'r')
-
+# 2:39:12 heapq 사용하기 (시간초과)
+# 기존에는 배열 sort사용했음.
 Q = int(input())
 
 dx = [-1, 0, 1, 0]
@@ -21,21 +22,21 @@ for _ in range(Q):
         for tt in range(P):
             tpid, td1 = map(int, (strings[4 + 2*tt], strings[5 + 2*tt]))
             dist[tpid] = td1
-            priority.append((0, 0, 0, 0, tpid))
+            heapq.heappush(priority,(0, 0, 0, 0, tpid))
             jumping[tpid] = 0
             score[tpid] = 0
     elif strings[0] == '200':
         K, S = map(int, (strings[1], strings[2]))
         #print(K, S)
-        jumped = {}
+        jumped = []
 
         for _ in range(K):
-            priority.sort(key=lambda x: (x[0], x[1], x[2], x[3], x[4]))
-            p1, p2, p3, p4, ppid = priority[0]
+            p1, p2, p3, p4, ppid = heapq.heappop(priority)
 
             one_dist = dist[ppid]
             # 이동하는 도중 그 다음 칸이 격자를 벗어나게 된다면 방향을 반대로 바꿔 한 칸 이동
-            temp = []
+            #temp = []
+            max_xy, max_x, max_y = -1,-1,-1
             for num in range(4):
                 nx, ny = (p3 + one_dist * dx[num]), (p4 + one_dist * dy[num])
                 #print('맨처음',nx,ny)
@@ -56,15 +57,18 @@ for _ in range(Q):
                     if nny != 0 :
                         nny=(2*(M-2)+2) - nny
                 #print('1보정후',nnx,nny)
-                temp.append((nnx + nny, nnx, nny))  # 이거 안쓰고 그냥 if 튜플비교하면 더빠를듯
-
-            temp.sort(key=lambda x: (-x[0], -x[1], -x[2]))
-            _, max_x, max_y = temp[0]
+                #temp.append((nnx + nny, nnx, nny))  # 이거 안쓰고 그냥 if 튜플비교하면 더빠를듯
+                if (max_xy, max_x, max_y) <= (nnx+nny , nnx, nny) :
+                    max_xy = nnx+nny
+                    max_x = nnx
+                    max_y =nny
+            #temp.sort(key=lambda x: (-x[0], -x[1], -x[2]))
+            #max_xy, max_x, max_y = temp[0]
             tj = jumping[ppid]
             tj += 1
             jumping[ppid] = tj
-            priority[0] = (tj, max_x + max_y, max_x, max_y, ppid)
-            jumped[ppid] = (max_x + max_y, max_x, max_y, ppid)
+            heapq.heappush(priority,(tj,max_x + max_y, max_x, max_y, ppid))
+            heapq.heappush(jumped,(-(max_x + max_y), -max_x, -max_y,-ppid))
             for key, value in score.items():
                 if key == ppid: continue
                 score[key] = value + max_x + 1 + max_y + 1
@@ -73,9 +77,8 @@ for _ in range(Q):
                     max_point=score[key]
                 # 최고스코어 비교
         # K다끝나고
-        jumped = list(jumped.values())
-        jumped.sort(key=lambda x: (-x[0], -x[1], -x[2], -x[3]))
-        _, _, _, jpid = jumped[0]
+        _, _, _, jpid = heapq.heappop(jumped)
+        jpid = -(jpid)
         score[jpid] += S
         #최고스코어 비교
         if score[jpid] > max_point:
