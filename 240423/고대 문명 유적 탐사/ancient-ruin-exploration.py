@@ -3,7 +3,7 @@ from collections import deque
 #sys.stdin=open('2024삼성오전1번.txt','r')
 
 K,M = map(int,input().split())
-maps= [ list(map(int,input().split())) for _ in range(5)]
+mapss= [ list(map(int,input().split())) for _ in range(5)]
 tn_list = map(int,input().split())
 tn_list = deque(tn_list)
 
@@ -92,7 +92,7 @@ def insert_item(mapss,in_list):
                 real.append(tt)
 
     if len(real) == 0 :
-        return [[0 for _ in range(5)] for _ in range(5)]
+        return [[0 for _ in range(5)] for _ in range(5)],False
     oh_real = []
     for ttmap in real:
         for tx,ty in ttmap:
@@ -119,17 +119,16 @@ for turn in range(K):
     for tx in range(1,4):
         for ty in range(1,4):
             for level in range(1,4):
-                if tx == 2 and ty == 2 :
-                    #print(tx,ty,level,'체크')
-                    tmaps = [ [maps[i][j] for j in range(5)] for i in range(5)]
-                    test_maps = rotate(tx,ty,level,tmaps)
-                    items = cal_item(test_maps)
-                    if (items,level,ty,tx) > (mitem,mlevel,my,mx) :
-                        mitem = items
-                        mlevel = level
-                        mx,my = tx,ty
+                #print(tx,ty,level,'체크')
+                tmaps = [ [mapss[i][j] for j in range(5)] for i in range(5)]
+                test_maps = rotate(tx,ty,level,tmaps)
+                items = cal_item(test_maps)
+                if (items,-level,-ty,-tx) > (mitem,-mlevel,-my,-mx) :
+                    mitem = items
+                    mlevel = level
+                    mx,my = tx,ty
 
-    tmaps = [ [maps[i][j] for j in range(5)] for i in range(5)]
+    tmaps = [ [mapss[i][j] for j in range(5)] for i in range(5)]
     po = True
     turn_answer += mitem
     test_maps = rotate(mx,my,mlevel,tmaps)
@@ -147,6 +146,6 @@ for turn in range(K):
             else :
                 break
         if po :
-            print(turn_answer)
+            print(turn_answer,end= ' ')
     else :
         pass
