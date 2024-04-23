@@ -148,4 +148,4 @@ for turn in range(K):
         if po :
             print(turn_answer,end= ' ')
     else :
-        pass
+        break
