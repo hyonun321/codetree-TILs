@@ -93,11 +93,10 @@ def move_left_right(x,y,g_number):
                     #print("제자리", g_number)
                     # 내려갈수있나 봐야함.
 
-                    fairy_position[g_number] = (x, y)
                     if not (check_gol_body(x,y)):
                         return False
                     break
-
+    fairy_position[g_number] = (x, y)
     board_draw_by_fairy(g_number)
     for item in range(C):
         if board[0][item] != 0 :
