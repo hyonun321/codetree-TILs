@@ -1,6 +1,8 @@
-import sys
+#import sys
 from collections import deque
+#from fcntl import FASYNC
 
+#sys.stdin=open("2024_하반기_오후1번.txt","r")
 R,C,K = map(int,input().split())
 board = [ [0 for _ in range(C)] for _ in range(R+1)]
 gdx=[-1,0,1,0]
@@ -16,10 +18,10 @@ for idx_i in range(K):
     ci,di = map(int,input().split())
     g_start.append(ci-1)
     g_exit.append(di)
-def print_b():
+def print_b(idx):
     for k in board:
         print(*k)
-    print()
+    print(idx,"진행함")
 
 # 차례대로 골렘 추가
   # 이때 위치에 넣어질수 없으면 초기화
@@ -96,6 +98,9 @@ def move_left_right(x,y,g_number):
                 break
 
     board_draw_by_fairy(g_number)
+    for item in range(C):
+        if board[0][item] != 0 :
+            return False
     #print_b()
     return True
     # 그냥 그자리 그대로
@@ -130,12 +135,14 @@ def fairy_move_and_point_up(idx):
     y = y+gdy[g_exit[idx]]
     bx = bfs(x,y)
     result += (bx ) # 인덱스 보정
+    #print(idx,"의",bx,"만큼더해서",result)
     return
 
 def in_range(x,y):
     return 0<=x<R+1 and 0<=y<C
 
 def check_gol_body(x,y):
+    ## 가장 맨위일때도 잘라버려야함.
     dx=[0,0,1,-1]
     dy=[1,-1,0,0]
     for d in range(4):
@@ -151,7 +158,8 @@ for gol_idx in range(1,K+1):
     gol_ok = one_gol_down(gol_idx)
     if not (gol_ok):
         init_board()
+        #print_b(gol_idx)
         continue
     fairy_move_and_point_up(gol_idx)
-    #print_b()
+    #print_b(gol_idx)
 print(result)
