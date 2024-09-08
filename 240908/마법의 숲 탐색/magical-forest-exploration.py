@@ -1,5 +1,6 @@
 import sys
 from collections import deque
+
 R,C,K = map(int,input().split())
 board = [ [0 for _ in range(C)] for _ in range(R+3)]
 gdx=[-1,0,1,0]
@@ -10,14 +11,13 @@ LEFT,RIGHT,DOWN=0,1,2
 g_start = [-1]
 g_exit = [-1]
 deb = 0
-
 for idx_i in range(K):
     ci,di = map(int,input().split())
     g_start.append(ci-1)
     g_exit.append(di)
 def print_b(idx):
     for k in board:
-        print(*k)
+        print(*[f"{num:>3}" for num in k])
     print(idx,"진행함")
 
 # 차례대로 골렘 추가
@@ -74,28 +74,30 @@ def move(x,y,idx) :
 def move_left_right(x,y,g_number):
     # 여기가 어려운 각
     while(1):
-        if (check_gol_position(x,y,LEFT)):
-            g_exit[g_number] = (g_exit[g_number] - 1 )%4
-            #print("왼쪽 자리있음",g_number)
+        if (check_gol_position(x,y,DOWN)):
             x = x + 1
-            y = y - 1
         else :
-            if(check_gol_position(x,y,RIGHT)):
-                g_exit[g_number] = (g_exit[g_number] + 1) % 4
-                fairy_position[g_number] = move(x, y, RIGHT)
-                #print("오른쪽 자리 있음",g_number)
+            if (check_gol_position(x,y,LEFT)):
+                g_exit[g_number] = (g_exit[g_number] - 1 )%4
+                #print("왼쪽 자리있음",g_number)
                 x = x + 1
-                y = y + 1
+                y = y - 1
+            else :
+                if(check_gol_position(x,y,RIGHT)):
+                    g_exit[g_number] = (g_exit[g_number] + 1) % 4
+                    #print("오른쪽 자리 있음",g_number)
+                    x = x + 1
+                    y = y + 1
 
-            else : # 제자리
-                #print("제자리", g_number)
-                # 내려갈수있나 봐야함.
-                if not (check_gol_position(x,y,DOWN)) :
+                else : # 제자리
+                    #print("제자리", g_number)
+                    # 내려갈수있나 봐야함.
+
                     fairy_position[g_number] = (x, y)
                     if not (check_gol_body(x,y)):
                         return False
                     break
-                x = x + 1
+
     board_draw_by_fairy(g_number)
     for item in range(C):
         if board[0][item] != 0 :
@@ -130,7 +132,7 @@ def check_gol_position(x,y,position):
             return True
         return False
     elif (position == DOWN):
-        if (in_range(x+2,y) and board[x+2][y] == 0 ) and (in_range(x+1,y-1) and board[x+1][y-1] == 0 ) and (in_range(x+1,y+1) and board[x+1][y+1] == 0 ) : 
+        if (in_range(x+2,y) and board[x+2][y] == 0 ) and (in_range(x+1,y-1) and board[x+1][y-1] == 0 ) and (in_range(x+1,y+1) and board[x+1][y+1] == 0 ) :
             return True
         return False
 
