@@ -1,3 +1,4 @@
+import sys
 from collections import deque
 
 R,C,K = map(int,input().split())
@@ -18,6 +19,7 @@ for idx_i in range(K):
 def print_b():
     for k in board:
         print(*k)
+    print()
 
 # 차례대로 골렘 추가
   # 이때 위치에 넣어질수 없으면 초기화
@@ -37,25 +39,19 @@ def bfs(x,y):
     queue = deque()
     visited = [[False for _ in range(C)]for _ in range(R+1)]
     visited[x][y] = True
-    queue.append((x,y,board[x][y]))
+    queue.append((x,y,abs(board[x][y])))
     max_x = x
     while queue:
         rx,ry,r_idx = queue.popleft()
-        exit_x,exit_y = fairy_position[r_idx]
-        exit_x =  exit_x + gdx[g_exit[r_idx]]
-        exit_y =  exit_y + gdy[g_exit[r_idx]]
-        exit_possible = False
-        if ( rx == exit_x and ry == exit_y) :
-            exit_possible = True
         for d in range(4):
             nx,ny = rx+dx[d],ry+dy[d]
-            if (in_range(nx,ny) and board[nx][ny] == r_idx and visited[nx][ny] == False and nx >= x):
-                queue.append((nx,ny,board[nx][ny]))
+            if (in_range(nx,ny)  and abs(board[nx][ny]) == r_idx and visited[nx][ny] == False and nx >= x):
+                queue.append((nx,ny,abs(board[nx][ny])))
                 visited[nx][ny] = True
                 max_x = max(max_x,nx)
-            elif exit_possible and (in_range(nx,ny) and board[nx][ny] >0 and visited[nx][ny] == False and nx >= x) :
+            elif  (in_range(nx,ny) and board[rx][ry] <0 and abs(board[nx][ny]) != r_idx and board[nx][ny] != 0  and visited[nx][ny] == False and nx >= x) :
                 new_fairy_idx = board[nx][ny]
-                queue.append((nx, ny,new_fairy_idx))
+                queue.append((nx, ny,abs(board[nx][ny])))
                 visited[nx][ny] = True
                 max_x = max(max_x, nx)
     return max_x
@@ -71,10 +67,8 @@ def one_gol_down(idx):
 
 def move(x,y,idx) :
     if (idx == LEFT):
-
         return (x,y)
     elif (idx == RIGHT):
-
         return (x,y)
     return (-1,-1)
 
@@ -114,7 +108,9 @@ def board_draw_by_fairy(g_number):
             board[nx][ny] = g_number
     if in_range(x,y) and board[x][y] == 0:
         board[x][y] = g_number
-
+    nx = x +gdx[g_exit[g_number]]
+    ny = y +gdy[g_exit[g_number]]
+    board[nx][ny] = -g_number
 def check_gol_position(x,y,position):
     if ( position == LEFT):
         if(in_range(x,y-2) and board[x][y-2] == 0) and (in_range(x-1,y-1) and board[x-1][y-1]== 0) and (in_range(x+1,y-1) and board[x+1][y-1]== 0) and ((in_range(x + 1, y - 2) and board[x + 1][y - 2] == 0 )) and ((in_range(x + 2, y - 1) and board[x + 2][y - 1] == 0 ) ):
@@ -157,4 +153,5 @@ for gol_idx in range(1,K+1):
         init_board()
         continue
     fairy_move_and_point_up(gol_idx)
+    #print_b()
 print(result)
