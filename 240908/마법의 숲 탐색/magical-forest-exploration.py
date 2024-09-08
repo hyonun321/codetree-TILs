@@ -1,10 +1,9 @@
-#import sys
+import sys
 from collections import deque
-#from fcntl import FASYNC
+from fcntl import FASYNC
 
-#sys.stdin=open("2024_하반기_오후1번.txt","r")
 R,C,K = map(int,input().split())
-board = [ [0 for _ in range(C)] for _ in range(R+1)]
+board = [ [0 for _ in range(C)] for _ in range(R+2)]
 gdx=[-1,0,1,0]
 gdy=[0,1,0,-1]
 fairy_position= [(-1,-1) for _ in range(K+1)]
@@ -12,7 +11,7 @@ result = 0
 LEFT,RIGHT=0,1
 g_start = [-1]
 g_exit = [-1]
-
+deb = 0
 
 for idx_i in range(K):
     ci,di = map(int,input().split())
@@ -32,14 +31,14 @@ def print_b(idx):
 
 def init_board():
     global board
-    board = [ [0 for _ in range(C)] for _ in range(R+1)]
+    board = [ [0 for _ in range(C)] for _ in range(R+2)]
 
 
 def bfs(x,y):
     dx=[-1,0,1,0]
     dy=[0,1,0,-1]
     queue = deque()
-    visited = [[False for _ in range(C)]for _ in range(R+1)]
+    visited = [[False for _ in range(C)]for _ in range(R+2)]
     visited[x][y] = True
     queue.append((x,y,abs(board[x][y])))
     max_x = x
@@ -60,7 +59,7 @@ def bfs(x,y):
 
 def one_gol_down(idx):
     g_col = g_start[idx]
-    for row in range(R-1,0,-1):
+    for row in range(R+1,0,-1):
         if(check_gol_body(row,g_col)):
             if(move_left_right(row,g_col,idx)):
                 return True
@@ -101,6 +100,8 @@ def move_left_right(x,y,g_number):
     for item in range(C):
         if board[0][item] != 0 :
             return False
+        if board[1][item] != 0 :
+            return False
     #print_b()
     return True
     # 그냥 그자리 그대로
@@ -134,12 +135,13 @@ def fairy_move_and_point_up(idx):
     x = x+gdx[g_exit[idx]]
     y = y+gdy[g_exit[idx]]
     bx = bfs(x,y)
-    result += (bx ) # 인덱스 보정
-    #print(idx,"의",bx,"만큼더해서",result)
+    result += (bx-1) # 인덱스 보정
+    if deb:
+        print(idx,"의",bx,"만큼더해서",result)
     return
 
 def in_range(x,y):
-    return 0<=x<R+1 and 0<=y<C
+    return 0<=x<R+2 and 0<=y<C
 
 def check_gol_body(x,y):
     ## 가장 맨위일때도 잘라버려야함.
@@ -158,8 +160,10 @@ for gol_idx in range(1,K+1):
     gol_ok = one_gol_down(gol_idx)
     if not (gol_ok):
         init_board()
-        #print_b(gol_idx)
+        if deb:
+            print_b(gol_idx)
         continue
     fairy_move_and_point_up(gol_idx)
-    #print_b(gol_idx)
+    if deb:
+        print_b(gol_idx)
 print(result)
