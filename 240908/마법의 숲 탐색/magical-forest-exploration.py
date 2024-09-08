@@ -42,6 +42,7 @@ def bfs(x,y):
     max_x = x
     while queue:
         rx,ry,r_idx = queue.popleft()
+        max_x = max(rx,max_x)
         for d in range(4):
             nx,ny = rx+dx[d],ry+dy[d]
             if (in_range(nx,ny)  and abs(board[nx][ny]) == r_idx and visited[nx][ny] == False ):
@@ -49,7 +50,6 @@ def bfs(x,y):
                 visited[nx][ny] = True
                 max_x = max(max_x,nx)
             elif  (in_range(nx,ny) and board[rx][ry] <0 and abs(board[nx][ny]) != r_idx and board[nx][ny] != 0  and visited[nx][ny] == False) :
-                new_fairy_idx = board[nx][ny]
                 queue.append((nx, ny,abs(board[nx][ny])))
                 visited[nx][ny] = True
                 max_x = max(max_x, nx)
