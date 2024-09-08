@@ -1,6 +1,5 @@
 import sys
 from collections import deque
-from fcntl import FASYNC
 
 R,C,K = map(int,input().split())
 board = [ [0 for _ in range(C)] for _ in range(R+2)]
