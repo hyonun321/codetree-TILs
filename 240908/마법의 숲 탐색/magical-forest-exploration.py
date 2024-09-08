@@ -1,13 +1,12 @@
 import sys
 from collections import deque
-
 R,C,K = map(int,input().split())
-board = [ [0 for _ in range(C)] for _ in range(R+2)]
+board = [ [0 for _ in range(C)] for _ in range(R+3)]
 gdx=[-1,0,1,0]
 gdy=[0,1,0,-1]
 fairy_position= [(-1,-1) for _ in range(K+1)]
 result = 0
-LEFT,RIGHT=0,1
+LEFT,RIGHT,DOWN=0,1,2
 g_start = [-1]
 g_exit = [-1]
 deb = 0
@@ -30,14 +29,14 @@ def print_b(idx):
 
 def init_board():
     global board
-    board = [ [0 for _ in range(C)] for _ in range(R+2)]
+    board = [ [0 for _ in range(C)] for _ in range(R+3)]
 
 
 def bfs(x,y):
     dx=[-1,0,1,0]
     dy=[0,1,0,-1]
     queue = deque()
-    visited = [[False for _ in range(C)]for _ in range(R+2)]
+    visited = [[False for _ in range(C)]for _ in range(R+3)]
     visited[x][y] = True
     queue.append((x,y,abs(board[x][y])))
     max_x = x
@@ -58,7 +57,7 @@ def bfs(x,y):
 
 def one_gol_down(idx):
     g_col = g_start[idx]
-    for row in range(R+1,0,-1):
+    for row in range(R+2,0,-1):
         if(check_gol_body(row,g_col)):
             if(move_left_right(row,g_col,idx)):
                 return True
@@ -90,16 +89,20 @@ def move_left_right(x,y,g_number):
 
             else : # 제자리
                 #print("제자리", g_number)
-                fairy_position[g_number] = (x, y)
-                if not (check_gol_body(x,y)):
-                    return False
-                break
-
+                # 내려갈수있나 봐야함.
+                if not (check_gol_position(x,y,DOWN)) :
+                    fairy_position[g_number] = (x, y)
+                    if not (check_gol_body(x,y)):
+                        return False
+                    break
+                x = x + 1
     board_draw_by_fairy(g_number)
     for item in range(C):
         if board[0][item] != 0 :
             return False
         if board[1][item] != 0 :
+            return False
+        if board[2][item] != 0 :
             return False
     #print_b()
     return True
@@ -126,7 +129,10 @@ def check_gol_position(x,y,position):
         if (in_range(x, y + 2) and board[x][y + 2] == 0) and (in_range(x + 1, y + 1) and board[x + 1][y + 1]== 0) and ((in_range(x - 1, y + 1) and board[x - 1][y + 1] == 0 ))and ((in_range(x + 2, y + 1) and board[x + 2][y + 1] == 0 )) and ((in_range(x + 1, y + 2) and board[x + 1][y + 2] == 0 )):
             return True
         return False
-
+    elif (position == DOWN):
+        if (in_range(x+2,y) and board[x+2][y] == 0 ) and (in_range(x+1,y-1) and board[x+1][y-1] == 0 ) and (in_range(x+1,y+1) and board[x+1][y+1] == 0 ) : 
+            return True
+        return False
 
 def fairy_move_and_point_up(idx):
     global result
@@ -134,13 +140,13 @@ def fairy_move_and_point_up(idx):
     x = x+gdx[g_exit[idx]]
     y = y+gdy[g_exit[idx]]
     bx = bfs(x,y)
-    result += (bx-1) # 인덱스 보정
+    result += (bx-2) # 인덱스 보정
     if deb:
-        print(idx,"의",bx,"만큼더해서",result)
+        print(idx,"의",bx-2,"만큼더해서",result)
     return
 
 def in_range(x,y):
-    return 0<=x<R+2 and 0<=y<C
+    return 0<=x<R+3 and 0<=y<C
 
 def check_gol_body(x,y):
     ## 가장 맨위일때도 잘라버려야함.
