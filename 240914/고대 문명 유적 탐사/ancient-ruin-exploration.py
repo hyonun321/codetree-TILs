@@ -1,5 +1,6 @@
 import sys
 from collections import deque
+sys.stdin = open("고대문명유적탐사1.txt","r")
 
 # 0,1,2 인덱스에 따라 90~270도 회전시키는 함수
 
@@ -97,7 +98,7 @@ for turn in range(K):
                 t_board = [[board[ax][ay] for ay in range(5)] for ax in range(5)]
                 t_board = rotate_board(tx,ty,3,rotate,t_board)
                 point, t_board,_ = gain_point(t_board,t_relic)
-                if (point) > (high_point) :
+                if (point,-rotate) > (high_point, -rotate_count) :
                     rotate_count = rotate
                     mx,my = tx,ty
                     high_point = point
