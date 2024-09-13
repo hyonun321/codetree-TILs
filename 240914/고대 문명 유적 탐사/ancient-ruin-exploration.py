@@ -1,6 +1,5 @@
 import sys
 from collections import deque
-sys.stdin = open("고대문명유적탐사1.txt","r")
 
 # 0,1,2 인덱스에 따라 90~270도 회전시키는 함수
 
