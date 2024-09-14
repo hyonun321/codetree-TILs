@@ -90,8 +90,8 @@ for turn in range(K):
     high_point = 0
     mx,my = -1,-1
     rotate_count = 0
-    for tx in range(1,4):
-        for ty in range(1,4):
+    for ty in range(1,4):
+        for tx in range(1,4):
             t_relic = []
             for item in relics:
                 t_relic.append(item)
