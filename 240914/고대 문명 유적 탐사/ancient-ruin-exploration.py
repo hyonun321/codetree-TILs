@@ -54,7 +54,7 @@ def bfs(x,y,visited,t_board):
         return (count,over_3rd_arr)
     return 0,[]
 
-def gain_point(t_board,relic):
+def gain_point(t_board,relic,fake):
     temp_relics = []
     for item in relic:
         temp_relics.append(item)
@@ -71,6 +71,7 @@ def gain_point(t_board,relic):
                 point += a
                 over_3rd_arr += b
         if point == 0 : break
+
         max_point += point
         for (ax,ay) in over_3rd_arr:
             t_board[ax][ay] = 0
@@ -79,6 +80,7 @@ def gain_point(t_board,relic):
             for qx in range(4,-1,-1):
                 if t_board[qx][qy] == 0 :
                     t_board[qx][qy] = temp_relics.pop(0) # 더이상 팝할께없다고.. <?
+        if (fake == True) : break
     return(max_point , t_board,temp_relics)
 
 
@@ -96,7 +98,7 @@ for turn in range(K):
             for rotate in range(1,4): # 1,2,3 -> 1 90도 2 180도 3 270도
                 t_board = [[board[ax][ay] for ay in range(5)] for ax in range(5)]
                 t_board = rotate_board(tx,ty,3,rotate,t_board)
-                point, t_board,_ = gain_point(t_board,t_relic)
+                point, t_board,_ = gain_point(t_board,t_relic,True)
                 if (point,-rotate) > (high_point, -rotate_count) :
                     rotate_count = rotate
                     mx,my = tx,ty
@@ -104,7 +106,7 @@ for turn in range(K):
 
     if (mx == -1 and my == -1) : break
     board = rotate_board(mx,my,3,rotate_count,board)
-    pp, board,relics = gain_point(board, relics)
+    pp, board,relics = gain_point(board, relics,False)
     result.append(pp)
 for item_p in result:
     print(item_p,end=' ')
