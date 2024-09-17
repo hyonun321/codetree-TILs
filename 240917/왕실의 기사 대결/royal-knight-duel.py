@@ -100,7 +100,7 @@ def cal_damage():
 for turn in range(Q):
     (i,d) = map(int,input().split())
     move_knight = knight_move(i,d)
-    print(move_knight)
+    #print(move_knight)
     if (len(move_knight) == 0 ) : continue
     damaged(move_knight)
     #print_b(kboard)
