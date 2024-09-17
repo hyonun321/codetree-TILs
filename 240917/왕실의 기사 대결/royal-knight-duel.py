@@ -45,7 +45,7 @@ def knight_move(i,d):
     visited = [ [False for _ in range(L)] for _ in range(L)]
     (r1,c1,h1,w1,health) = knight[i]
     move_knight.append(i)
-    if health <= 0: return
+    if health <= 0: return []
     queue = deque()
     for x2 in range(h1):
         for y2 in range(w1):
@@ -66,13 +66,10 @@ def knight_move(i,d):
             return []
         elif not in_range(nx,ny) :
             return []
-
-
     change_knight_move(move_knight,d)
     update_night_map()
     return move_knight
         # 다른 기사일때
-
 
 def damaged(move_knight):
     for kn in range(len(move_knight)):
@@ -103,6 +100,8 @@ def cal_damage():
 for turn in range(Q):
     (i,d) = map(int,input().split())
     move_knight = knight_move(i,d)
+    print(move_knight)
+    if (len(move_knight) == 0 ) : continue
     damaged(move_knight)
     #print_b(kboard)
 
