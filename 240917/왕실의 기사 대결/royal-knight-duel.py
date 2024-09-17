@@ -1,21 +1,24 @@
 import sys
 from collections import deque
 knight = [0]
-result = 0
 L,N,Q = map(int,input().split())
 board = [ list(map(int,input().split())) for _ in range(L)]
 kboard = [ [0 for _ in range(L)] for _ in range(L)]
+damaged_all = [0 for _ in range(N+1)]
 dx=[-1,0,1,0]
 dy=[0,1,0,-1]
 
 
 def update_night_map():
-    for knum in range(N):
+    global kboard
+    kboard = [ [0 for _ in range(L)] for _ in range(L)]
+    for knum in range(N+1):
+        if knum == 0 : continue
         (r, c, h, w, k) = knight[knum]
         if k <= 0 : continue
         for x1 in range(h):
             for y1 in range(w):
-                kboard[r+x1][c+y1] = number+1
+                kboard[r+x1][c+y1] = knum
 for number in range(N):
     (r,c,h,w,k) = map(int,input().split())
     r-=1
@@ -64,13 +67,12 @@ def knight_move(i,d):
             return []
 
     change_knight_move(move_knight,d)
+    update_night_map()
     return move_knight
         # 다른 기사일때
 
 
 def damaged(move_knight):
-    damage = 0
-
     for kn in range(len(move_knight)):
         if kn == 0 : continue # 움직인놈은 반영안함
         knum = move_knight[kn]
@@ -80,17 +82,26 @@ def damaged(move_knight):
             for y1 in range(w):
                 if(board[r+x1][c+y1] == 1):
                     count +=1
-        damage += count
-        knight[knum] = (r, c, h, w, knum - count)
-    return damage
+        damaged_all[knum] += count
+        knight[knum] = (r, c, h, w, khealth - count)
+    update_night_map()
+    return
 
+def cal_damage():
+    count = 0
+    for km in range(N+1):
+        if km == 0 : continue
+        (r, c, h, w, khealth) = knight[km]
+        if khealth > 0 :
+            count += damaged_all[km]
+    return count
 # 라운드
 
-    print_b(board)
+#print_b(board)
 for turn in range(Q):
     (i,d) = map(int,input().split())
-    #print_b(kboard)
     move_knight = knight_move(i,d)
-    result += damaged(move_knight)
+    damaged(move_knight)
+    #print_b(kboard)
 
-print(result)
+print(cal_damage())
