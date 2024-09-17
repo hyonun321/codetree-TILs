@@ -64,8 +64,9 @@ def knight_move(i,d):
                     visited[r2 + x3][c2 + y3] = True
         elif in_range(nx,ny) and visited[nx][ny] == False and board[nx][ny] == 2 : #벽일때
             return []
-        else :
+        elif not in_range(nx,ny) :
             return []
+
 
     change_knight_move(move_knight,d)
     update_night_map()
