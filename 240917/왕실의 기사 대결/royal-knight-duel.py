@@ -62,7 +62,7 @@ def knight_move(i,d):
                 for y3 in range(w2):
                     queue.append((r2 + x3, c2 +  y3, kboard[nx][ny]))
                     visited[r2 + x3][c2 + y3] = True
-        if in_range(nx,ny) and visited[nx][ny] == False and board[nx][ny] == 2 : #벽일때
+        elif in_range(nx,ny) and visited[nx][ny] == False and board[nx][ny] == 2 : #벽일때
             return []
         else :
             return []
