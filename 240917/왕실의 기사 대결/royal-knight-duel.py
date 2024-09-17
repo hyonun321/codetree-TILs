@@ -8,7 +8,6 @@ damaged_all = [0 for _ in range(N+1)]
 dx=[-1,0,1,0]
 dy=[0,1,0,-1]
 
-
 def update_night_map():
     global kboard
     kboard = [ [0 for _ in range(L)] for _ in range(L)]
@@ -64,6 +63,8 @@ def knight_move(i,d):
                     queue.append((r2 + x3, c2 +  y3, kboard[nx][ny]))
                     visited[r2 + x3][c2 + y3] = True
         if in_range(nx,ny) and visited[nx][ny] == False and board[nx][ny] == 2 : #벽일때
+            return []
+        else :
             return []
 
     change_knight_move(move_knight,d)
