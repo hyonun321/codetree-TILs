@@ -114,7 +114,7 @@ def roodolf_m(turn):
             if deb:
                 print(temp, "가 우주로 밀려납니다.")
             santa[temp] = (-1, -1)
-
+    r_board[Rr][Rc] = 1 # 문제 3 루돌프 반영 처리 안함
     return
 
 
@@ -178,7 +178,7 @@ def one_santa_move(turn, number):  # 한명의 산타만 이동
         nnx, nny = mx + D * dx[s_dir], my + D * dy[s_dir]
         if in_range(nnx, nny) and board[nnx][nny] == 0:
             mx, my = nnx, nny
-            board[mx][my] = number # 여기 board공유처리안했음.
+            board[mx][my] = number # 문제 2 - 여기 board공유처리안했음.
         elif in_range(nnx, nny) and board[nnx][nny] != 0:  # 누가있다면
             if deb:
                 print(nnx, nny, "에 연쇄충돌 시작", board[nnx][nny], "이 밀리기 시작합니다.")
