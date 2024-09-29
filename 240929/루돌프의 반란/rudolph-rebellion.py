@@ -82,6 +82,7 @@ def roodolf_m(turn):
     if board[Rr][Rc] > 0:  # 뭔가있따
         temp = board[Rr][Rc] # 문제 1번 -> -1 을 하나의 board맵에서 쓰려고하니까 발생한 순서 문제. 그냥 board 2개 나누는게 좋다.
         r_board[Rr][Rc] = 1
+        board[Rr][Rc] = 0
         santa_sturn[temp] = turn + 2
         santa_point[temp] += C
         nx, ny = Rr + C * dx[mdir], Rc + C * dy[mdir]
@@ -190,10 +191,11 @@ def one_santa_move(turn, number):  # 한명의 산타만 이동
                 tx, ty = tx + dx[s_dir], ty + dy[s_dir]
                 if in_range(tx, ty) and board[tx][ty] == 0:
                     santa[temp] = tx, ty
-
+                    board[tx][ty] = temp # 문제3 밀려날때 board에 반영을 안해줘서 나머지 숫자들이 참조를 못했음
                     break
                 elif in_range(tx, ty) and board[tx][ty] != 0:
                     santa[temp] = tx, ty
+                    board[tx][ty] = temp
                     temp = board[tx][ty]  # 기존에 있던 값 저장하고 다시.
                 else:  # 밖에 나가버린 경우
                     santa[temp] = -1, -1
@@ -213,6 +215,12 @@ def santa_p_up():
         santa_point[i] += 1
     return
 
+def santa_all_die():
+    for i,k in enumerate(santa):
+        if i ==0 : continue
+        if k[0] != -1 :
+            return False
+    return True
 
 def check_point():
     for i, k in enumerate(santa_point):
@@ -234,6 +242,8 @@ for turn in range(M):
 
     # 산타가 탈락하면 바로 그즉시 게임 종료.
     santa_p_up()
+    if santa_all_die():
+        break
     if deb:
         check_point()
         print()
