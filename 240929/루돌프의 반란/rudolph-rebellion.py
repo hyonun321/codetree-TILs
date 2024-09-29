@@ -34,11 +34,13 @@ def print_b(arr):
 
 
 def print_s():
+
+    print("루돌프")
+    print_b(r_board)
     for (i, k) in enumerate(santa):
         if i == 0: continue
         print(i, "번째 산타 : ", k, "\n", end='')
     print_b(board)
-
     print()
 
 
@@ -176,18 +178,19 @@ def one_santa_move(turn, number):  # 한명의 산타만 이동
         nnx, nny = mx + D * dx[s_dir], my + D * dy[s_dir]
         if in_range(nnx, nny) and board[nnx][nny] == 0:
             mx, my = nnx, nny
+            board[mx][my] = number # 여기 board공유처리안했음.
         elif in_range(nnx, nny) and board[nnx][nny] != 0:  # 누가있다면
             if deb:
                 print(nnx, nny, "에 연쇄충돌 시작", board[nnx][nny], "이 밀리기 시작합니다.")
             temp = board[nnx][nny]  # 저장
             mx, my = nnx, nny
-
             # s_dir 방향으로 1칸씩 밀려나가며 체크해야한다.
             tx, ty = nnx, nny
             while True:
                 tx, ty = tx + dx[s_dir], ty + dy[s_dir]
                 if in_range(tx, ty) and board[tx][ty] == 0:
                     santa[temp] = tx, ty
+
                     break
                 elif in_range(tx, ty) and board[tx][ty] != 0:
                     santa[temp] = tx, ty
