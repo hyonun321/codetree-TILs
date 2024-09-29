@@ -6,9 +6,10 @@ Rr, Rc = map(int, input().split())
 santa_point = [0] * (P + 1)
 santa = [0] * (P + 1)
 board = [[0 for _ in range(N)] for _ in range(N)]
+r_board = [[0 for _ in range(N)] for _ in range(N)]
 Rr -= 1
 Rc -= 1
-board[Rr][Rc] = -1
+r_board[Rr][Rc] = 1
 santa_sturn = [0] * (P + 1)
 for _ in range(P):
     Pn, Sr, Sc = map(int, input().split())
@@ -47,7 +48,7 @@ def roodolf_m(turn):
     # 탈락하면안됨.
     min_dist = 100000
     mr, mc = -1, -1
-    board[Rr][Rc] = 0
+    r_board[Rr][Rc] = 0
     for num in range(1, P + 1):
         sr, sc = santa[num]
         if sr == -1: continue
@@ -78,7 +79,7 @@ def roodolf_m(turn):
     # 충돌검사 필요
     if board[Rr][Rc] > 0:  # 뭔가있따
         temp = board[Rr][Rc] # 문제 1번 -> -1 을 하나의 board맵에서 쓰려고하니까 발생한 순서 문제. 그냥 board 2개 나누는게 좋다.
-        board[Rr][Rc] = -1
+        r_board[Rr][Rc] = 1
         santa_sturn[temp] = turn + 2
         santa_point[temp] += C
         nx, ny = Rr + C * dx[mdir], Rc + C * dy[mdir]
@@ -129,7 +130,7 @@ def santa_m(turn):
         sr, sc = santa[idx]
         if sr == -1: continue
         board[sr][sc] = idx
-    board[Rr][Rc] = -1
+    r_board[Rr][Rc] = 1
     if deb:
         print_s()
     return
@@ -152,7 +153,7 @@ def one_santa_move(turn, number):  # 한명의 산타만 이동
     for num in range(4):
         nx, ny = sr + dx[num], sc + dy[num]
         after_dist = cal_distance(nx, Rr, ny, Rc)
-        if in_range(nx, ny) and (board[nx][ny] == 0 or board[nx][ny] == -1) and after_dist < now_dist:  # 움직일 필요가 없을때도 추가
+        if in_range(nx, ny) and (board[nx][ny] == 0 or r_board[nx][ny] == 1) and after_dist < now_dist:  # 움직일 필요가 없을때도 추가
             mx, my = nx, ny
             now_dist = after_dist
             s_dir = num
