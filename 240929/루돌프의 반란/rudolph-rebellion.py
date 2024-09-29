@@ -106,8 +106,10 @@ def roodolf_m(turn):
                     board[tx][ty] = temp1
                     break
                 elif in_range(tx, ty) and board[tx][ty] != 0:
+                    temp2 = board[tx][ty]  # 기존에 있던 값 저장하고 다시.
                     santa[temp1] = tx, ty
-                    temp1 = board[tx][ty]  # 기존에 있던 값 저장하고 다시.
+                    board[tx][ty] = temp1
+                    temp1 = temp2
                 else:  # 밖에 나가버린 경우
                     santa[temp1] = -1, -1
                     break
@@ -171,6 +173,7 @@ def one_santa_move(turn, number):  # 한명의 산타만 이동
         # 기절처리
         # [0,0,0,2,0]
         santa_sturn[number] = turn + 2
+        board[mx][my] = 0
         if deb:
             print("루돌프와 부딫힘", number)
         santa_point[number] += D
@@ -184,6 +187,7 @@ def one_santa_move(turn, number):  # 한명의 산타만 이동
             if deb:
                 print(nnx, nny, "에 연쇄충돌 시작", board[nnx][nny], "이 밀리기 시작합니다.")
             temp = board[nnx][nny]  # 저장
+            board[nnx][nny] = number
             mx, my = nnx, nny
             # s_dir 방향으로 1칸씩 밀려나가며 체크해야한다.
             tx, ty = nnx, nny
@@ -194,11 +198,13 @@ def one_santa_move(turn, number):  # 한명의 산타만 이동
                     board[tx][ty] = temp # 문제3 밀려날때 board에 반영을 안해줘서 나머지 숫자들이 참조를 못했음
                     break
                 elif in_range(tx, ty) and board[tx][ty] != 0:
+                    temp1 = board[tx][ty]  # 문제 4 : 값 바꾸기 순서 잘못함.
                     santa[temp] = tx, ty
                     board[tx][ty] = temp
-                    temp = board[tx][ty]  # 기존에 있던 값 저장하고 다시.
+                    temp = temp1
                 else:  # 밖에 나가버린 경우
                     santa[temp] = -1, -1
+
                     break
 
         else:
