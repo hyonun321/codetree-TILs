@@ -84,6 +84,7 @@ def roodolf_m(turn):
         nx, ny = Rr + C * dx[mdir], Rc + C * dy[mdir]
         if in_range(nx, ny) and board[nx][ny] == 0:
             santa[temp] = nx, ny
+            board[nx][ny] = temp
         elif in_range(nx, ny) and board[nx][ny] != 0:  # 연쇄
             temp1 = board[nx][ny]
             santa[temp] = nx, ny
@@ -213,6 +214,8 @@ def check_point():
     for i, k in enumerate(santa_point):
         if i == 0: continue
         print(k, end=' ')
+if deb:
+    print_s()
 for turn in range(M):
     if deb:
         print(turn,"현재턴")
